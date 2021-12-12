@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include <iostream>
 #include <string>
+#include "SDL_image.h" 
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
@@ -14,6 +15,8 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL could not initialize.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+  IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+
 
   // Create Window
   sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
