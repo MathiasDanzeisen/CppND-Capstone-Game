@@ -14,7 +14,9 @@ add_executable(Game
 )
 
 
-target_compile_options(Game PRIVATE -Wall -Wextra -pedantic -Werror)
+#target_compile_options(Game PRIVATE -Wall -Wextra -pedantic -Werror)
+target_compile_options(Game PRIVATE -Wall -Wextra -pedantic )
+
 
 set_property(TARGET Game PROPERTY CXX_STANDARD 17)
 target_compile_features(Game PRIVATE cxx_std_17)
