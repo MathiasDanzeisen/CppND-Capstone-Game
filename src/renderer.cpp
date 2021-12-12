@@ -46,6 +46,19 @@ void Renderer::Render() {
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
 
+// TEST rendering
+SDL_Texture *texture;
+
+  std::string file("data/player_1.png");
+	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", file);
+
+	texture = IMG_LoadTexture(sdl_renderer, file.c_str());
+  if(texture==nullptr){
+    std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
+  }
+
+//
+
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
