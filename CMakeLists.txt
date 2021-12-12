@@ -8,11 +8,9 @@ set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
 project(SDL2Test)
+enable_language(CXX)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} src)
+find_package(SDL_image)
 
 add_executable(Game 
     src/main.cpp 
@@ -21,5 +19,13 @@ add_executable(Game
     src/renderer.cpp 
     src/object2d.cpp
 )
-string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-target_link_libraries(Game ${SDL2_LIBRARIES})
+target_include_directories(Game
+    PRIVATE
+        src    
+)
+
+target_link_libraries(Game 
+    PRIVATE    
+        SDL2-static
+        sdl_image::sdl_image
+)
