@@ -1,12 +1,9 @@
 #include "game.h"
-#include <iostream>
 #include "SDL.h"
 #include "logic.h"
+#include <iostream>
 
-Game::Game() {
-  _logic = std::make_shared<Logic>();
-
-}
+Game::Game() { _logic = std::make_shared<Logic>(); }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
@@ -15,11 +12,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true; 
+  bool running = true;
 
   // TODO: Init
   renderer.Init(_logic.get());
-  //this->_player1= texture ;
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -28,8 +24,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     renderer.Clear();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running);
-    _logic->_player1->moveToPos(_logic->_player1->getPosX()+1,_logic->_player1->getPosX()+1);
+    controller.HandleInput(running, *_logic);
     Update();
     renderer.Render(_logic.get());
 
@@ -57,22 +52,60 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 }
 
 // void Game::PlaceFood() {
-  // int x, y;
-  // while (true) {
-  //   x = random_w(engine);
-  //   y = random_h(engine);
-  //   // Check that the location is not occupied by a snake item before placing
-  //   // food.
-  //   if (!snake.SnakeCell(x, y)) {
-  //     food.x = x;
-  //     food.y = y;
-  //     return;
-  //   }
-  // }
+// int x, y;
+// while (true) {
+//   x = random_w(engine);
+//   y = random_h(engine);
+//   // Check that the location is not occupied by a snake item before placing
+//   // food.
+//   if (!snake.SnakeCell(x, y)) {
+//     food.x = x;
+//     food.y = y;
+//     return;
+//   }
+// }
 // }
 
 void Game::Update() {
- 
+
+  /////////////////////
+  // player
+  // Set speed of plyer
+  if (_logic->keyInDown) {
+    _logic->_player1->setVelo(_logic->_player1->getVeloX(),
+                              _logic->_player1->getVeloY() + _SPEED_CONST);
+  }
+  if (_logic->keyInUp) {
+    _logic->_player1->setVelo(_logic->_player1->getVeloX(),
+                              _logic->_player1->getVeloY() - _SPEED_CONST);
+  }
+  if (_logic->keyInLeft) {
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _SPEED_CONST,
+                              _logic->_player1->getVeloY());
+  }
+  if (_logic->keyInRight) {
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _SPEED_CONST,
+                              _logic->_player1->getVeloY());
+  }
+
+  // update player
+  int xPosNew = _logic->_player1->getPosX() + _logic->_player1->getVeloX();
+  int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
+
+  // make sure player is in the field
+  if (xPosNew >= Logic::POINTS_MIN &&
+      (xPosNew + _logic->_player1->getObjWPoints()) <= Logic::POINTS_MAX &&
+      yPosNew >= Logic::POINTS_MIN &&
+      (yPosNew + _logic->_player1->getObjHPoints()) <= Logic::POINTS_MAX) {
+    _logic->_player1->moveToPos(xPosNew, yPosNew);
+  } else {
+    _logic->_player1->setVelo(0, 0);
+  }
+  // limit player movement
+  // TODO:
+
+  // bullet
+  
 }
 
 int Game::GetScore() const { return score; }

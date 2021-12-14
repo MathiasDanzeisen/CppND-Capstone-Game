@@ -23,16 +23,32 @@ class Object2d {
 
         void moveToPos(int x, int y){ _posX=x;_posY=y;};
         int getPosX() const{return _posX;};
-        int getPosy() const{return _posY;};
+        int getPosY() const{return _posY;};
+
+        // object velocity
+        void setVelo(int dx, int dy){_veloX = dx; _veloY=dy;};
+        int getVeloX()const{return _veloX;};
+        int getVeloY()const{return _veloY;};
+
+        //object size
+        void setObjSizePix(int w, int h){_objWidPix=w; _objHeiPix=h;};
+        int getObjWPix() const{return _objWidPix;};
+        int getObjHPix() const{return _objHeiPix;};
+        void setObjSizePoints(int w, int h){_objWidPoints=w; _objHeiPoints=h;};
+        int getObjWPoints() const{return _objWidPoints;};
+        int getObjHPoints() const{return _objHeiPoints;};
 
     private:
-        std::string _image_path;
+        //std::string _image_path; //TODO: remove
         SDL_Texture *_texture;
         int _posX{0};   //postion in 0..1000 points of screen
         int _posY{0};   //postion in 0..1000 points of screen
         int _veloX{0};  //speed in points per frame
         int _veloY{0};  //
-
+        int _objWidPix{0};   // object Width in pixel
+        int _objHeiPix{0};
+        int _objWidPoints{0};   // object Width in pixel
+        int _objHeiPoints{0};
 };
 
 #endif

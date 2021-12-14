@@ -1,35 +1,50 @@
 #include "controller.h"
-#include <iostream>
 #include "SDL.h"
+#include <iostream>
 
-
-void Controller::HandleInput(bool &running) const {
+void Controller::HandleInput(bool &running, Logic &logic) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
-    if (e.type == SDL_QUIT) {
+    switch (e.type) {
+    case SDL_QUIT:
       running = false;
-    } else if (e.type == SDL_KEYDOWN) {
-      switch (e.key.keysym.sym) {
-        case SDLK_UP:
-          // ChangeDirection(snake, Snake::Direction::kUp,
-                          // Snake::Direction::kDown);
-          break;
+      break;
+    case SDL_KEYDOWN:
+      HandleKeyEvent(e.key,logic, true);
+      break;
+    case SDL_KEYUP:
+      HandleKeyEvent(e.key, logic, false);
+      break;
+    default:
+      break;
+    }
+  }
+}
 
-        case SDLK_DOWN:
-          // ChangeDirection(snake, Snake::Direction::kDown,
-          //                 Snake::Direction::kUp);
-          break;
+void Controller::HandleKeyEvent(SDL_KeyboardEvent &key, Logic &logic, bool setKeyValue) const {
+  // ignore repeated key pressed
+  if (key.repeat == 0) {
+    switch (key.keysym.scancode) {
+    case SDL_SCANCODE_UP:
+      logic.keyInUp = setKeyValue;
+      break;
 
-        case SDLK_LEFT:
-          // ChangeDirection(snake, Snake::Direction::kLeft,
-          //                 Snake::Direction::kRight);
-          break;
+    case SDL_SCANCODE_DOWN:
+      logic.keyInDown = setKeyValue;
+      break;
 
-        case SDLK_RIGHT:
-          // ChangeDirection(snake, Snake::Direction::kRight,
-          //                 Snake::Direction::kLeft);
-          break;
-      }
+    case SDL_SCANCODE_LEFT:
+      logic.keyInLeft = setKeyValue;
+      break;
+
+    case SDL_SCANCODE_RIGHT:
+      logic.keyInRight = setKeyValue;
+      break;
+    case SDL_SCANCODE_SPACE:
+      logic.keyInAction1 = setKeyValue;
+      break;
+    default:
+      break;
     }
   }
 }

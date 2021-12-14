@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "SDL.h"
+
 #include <vector>
 
 // TODO: remove
@@ -21,11 +21,13 @@ public:
   void UpdateWindowTitle(int score, int fps);
 
 private:
-  SDL_Window *sdl_window;
-  SDL_Renderer *sdl_renderer;
+  SDL_Window *_sdlWindow;
+  SDL_Renderer *_sdlRenderer;
 
-  const std::size_t screen_width;
-  const std::size_t screen_height;
+  const std::size_t _screenWidth;
+  const std::size_t _screenHeight;
+
+  void InitObject2d(Object2d &obj, const std::string filename, const int wPix, const int hPix);
 
   // TODO: remove
 };
