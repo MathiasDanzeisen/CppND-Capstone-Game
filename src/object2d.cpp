@@ -1,4 +1,5 @@
 #include "object2d.h"
+#include "logic.h"
 #include <cmath>
 #include <iostream>
 

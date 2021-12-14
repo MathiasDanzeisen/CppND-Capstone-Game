@@ -11,6 +11,7 @@
 class Object2d {
     public:
         Object2d();
+        //Object2d(SDL_Texture *_texture); // TODO: remove
         ~Object2d();
 
         Object2d(const Object2d& other) = delete; // copy constructor
@@ -25,7 +26,7 @@ class Object2d {
         int getPosX() const{return _posX;};
         int getPosY() const{return _posY;};
 
-        // object velocity
+        // object velocity (points per frame)
         void setVelo(int dx, int dy){_veloX = dx; _veloY=dy;};
         int getVeloX()const{return _veloX;};
         int getVeloY()const{return _veloY;};
@@ -41,13 +42,13 @@ class Object2d {
     private:
         //std::string _image_path; //TODO: remove
         SDL_Texture *_texture;
-        int _posX{0};   //postion in 0..1000 points of screen
-        int _posY{0};   //postion in 0..1000 points of screen
+        int _posX{0};   //postion in POINTS_MIN..POINTS_MAX points of screen
+        int _posY{0};   //postion in POINTS_MIN..POINTS_MAX points of screen
         int _veloX{0};  //speed in points per frame
         int _veloY{0};  //
         int _objWidPix{0};   // object Width in pixel
         int _objHeiPix{0};
-        int _objWidPoints{0};   // object Width in pixel
+        int _objWidPoints{0};   // object Width in points
         int _objHeiPoints{0};
 };
 

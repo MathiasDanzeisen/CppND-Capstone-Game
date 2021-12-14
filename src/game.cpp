@@ -105,7 +105,9 @@ void Game::Update() {
   // TODO:
 
   // bullet
-  
+  if (_logic->keyInAction1){
+    // add new bullet
+  }
 }
 
 int Game::GetScore() const { return score; }

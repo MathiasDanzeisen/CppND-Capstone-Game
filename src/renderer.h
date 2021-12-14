@@ -27,8 +27,10 @@ private:
   const std::size_t _screenWidth;
   const std::size_t _screenHeight;
 
-  void InitObject2d(Object2d &obj, const std::string filename, const int wPix, const int hPix);
-
+  // Load image into boject and set size
+  void initObject2d(Object2d &obj, const std::string filename, const int wPix, const int hPix);
+  // Put object on window
+  void renderObject2d(const Object2d &obj);
   // TODO: remove
 };
 

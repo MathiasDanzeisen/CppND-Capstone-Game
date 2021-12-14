@@ -2,6 +2,7 @@
 #include "SDL_image.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height)
@@ -46,34 +47,24 @@ void Renderer::Clear() {
 void Renderer::Init(Logic *logic) {
 
   // player
-  //InitObject2d(*(logic->_player1),"data/player_skunk.png", 30, 30 );
-  
-  // bullet
-  InitObject2d(*(logic->_player1),"data/bullet_green_dn_1.png", 25, 25 );
+  initObject2d(*(logic->_player1),"data/player_skunk.png", 30, 30 );
 
+  logic->_bullets.emplace_back(std::make_unique<Object2d>());
+  // bullet
+  initObject2d(*(logic->_bullets.back()), "data/bullet_green_dn_1.png", 25, 25);
 }
 
 void Renderer::Render(Logic *logic) {
-  // SDL_Rect block;
-  // block.w = screen_width / grid_width;
-  // block.h = screen_height / grid_height;
+  
+  // put player on screen
+  renderObject2d(*(logic->_player1));
 
-  // TEST rendering
-  int x = std::div(logic->_player1->getPosX() * this->_screenWidth,
-                   Logic::POINTS_MAX)
-              .quot;
-  int y = std::div(logic->_player1->getPosY() * this->_screenHeight,
-                   Logic::POINTS_MAX)
-              .quot;
-  // SDL_Rect dest =
-  // {logic->_player1->getPosX(),logic->_player1->getPosY(),logic->_player1->getObjWPix(),logic->_player1->getObjHPix()};
-  SDL_Rect dest = {x, y, logic->_player1->getObjWPix(),
-                   logic->_player1->getObjHPix()};
+  // render all bullets
+  for (long unsigned int i = 0; i < logic->_bullets.size();i++) {
+      renderObject2d(*(logic->_bullets.at(i)));
+   }
 
-  // Render texture with orignal size to dest.x & dest.y
-  SDL_RenderCopy(_sdlRenderer, logic->_player1->getTexture(), NULL, &dest);
-
-  // Render
+  // Update screen
   SDL_RenderPresent(_sdlRenderer);
 }
 
@@ -83,7 +74,8 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   SDL_SetWindowTitle(_sdlWindow, title.c_str());
 }
 
-void Renderer::InitObject2d(Object2d &obj, const std::string filename, const int wPix, const int hPix){
+void Renderer::initObject2d(Object2d &obj, const std::string filename,
+                            const int wPix, const int hPix) {
 
   SDL_Texture *texture = IMG_LoadTexture(_sdlRenderer, filename.c_str());
   if (texture == nullptr) {
@@ -91,14 +83,24 @@ void Renderer::InitObject2d(Object2d &obj, const std::string filename, const int
   }
   obj.setTexture(texture);
 
-  // Query size (width and hight from texture)
+  // TODO: remove: Query size (width and hight from texture)
   // SDL_QueryTexture(logic->_player1->getTexture(), NULL, NULL, &dest.w,
-  // &dest.h);  // need for 1:1 rendering
-  // constexpr int wPix{20};
-  // constexpr int hPix{20};
+
   obj.setObjSizePix(wPix, hPix);
   obj.setObjSizePoints(
       std::div(wPix * Logic::POINTS_MAX, this->_screenWidth).quot,
-      std::div(hPix * Logic::POINTS_MAX, this->_screenHeight ).quot);
+      std::div(hPix * Logic::POINTS_MAX, this->_screenHeight).quot);
+}
 
+void Renderer::renderObject2d(const Object2d &obj2d) {
+  // rendering
+  int x =
+      std::div(obj2d.getPosX() * this->_screenWidth, Logic::POINTS_MAX).quot;
+  int y =
+      std::div(obj2d.getPosY() * this->_screenHeight, Logic::POINTS_MAX).quot;
+
+  SDL_Rect dest = {x, y, obj2d.getObjWPix(), obj2d.getObjHPix()};
+
+  // Render texture with orignal size to dest.x & dest.y
+  SDL_RenderCopy(_sdlRenderer, obj2d.getTexture(), NULL, &dest);
 }
