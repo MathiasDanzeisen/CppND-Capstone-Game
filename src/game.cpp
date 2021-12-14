@@ -71,20 +71,21 @@ void Game::Update() {
   /////////////////////
   // player
   // Set speed of plyer
+
   if (_logic->keyInDown) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() + _SPEED_CONST);
+                              _logic->_player1->getVeloY() + _SPEED_INC_PLAYER);
   }
   if (_logic->keyInUp) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() - _SPEED_CONST);
+                              _logic->_player1->getVeloY() - _SPEED_INC_PLAYER);
   }
   if (_logic->keyInLeft) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _SPEED_CONST,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _SPEED_INC_PLAYER,
                               _logic->_player1->getVeloY());
   }
   if (_logic->keyInRight) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _SPEED_CONST,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _SPEED_INC_PLAYER,
                               _logic->_player1->getVeloY());
   }
 
@@ -105,8 +106,60 @@ void Game::Update() {
   // TODO:
 
   // bullet
-  if (_logic->keyInAction1){
-    // add new bullet
+  if (_logic->keyInAction1) {
+    // add new bullet which travlles straight
+    // *shoot upwards: neagtive y
+    auto bul = std::make_unique<Object2d>();
+    bul->setVelo(0, -_SPEED_CONST_BULLET);
+    bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
+    _logic->_bullets.push_back(std::move(bul));
+  }
+  // if (!_logic->_bullets.empty()) {
+    // update bullets
+    // for (auto it = _logic->_bullets.begin(); it != _logic->_bullets.end();) {
+      // int xPosNew = it->get()->getPosX() + it->get()->getVeloX();
+      // int yPosNew = it->get()->getPosY() + it->get()->getVeloY();
+
+      //   // make sure bullet is in the field
+      //   if (xPosNew >= Logic::POINTS_MIN &&
+      //       (xPosNew + it->get()->getObjWPoints()) <=
+      //           Logic::POINTS_MAX &&
+      //       yPosNew >= Logic::POINTS_MIN &&
+      //       (yPosNew + it->get()->getObjHPoints()) <=
+      //           Logic::POINTS_MAX) {
+      //     // put on screen
+      //    it->get()->moveToPos(xPosNew, yPosNew);
+      //   } else {
+      //     // delete
+      //     //_logic->_bullets.erase(it);
+      //   }
+  //   }
+  // }
+
+  for (long unsigned int i = 0; i < _logic->_bullets.size(); i++) {
+    int xPosNew =
+        _logic->_bullets.at(i)->getPosX() +
+        _logic->_bullets.at(i)->getVeloX();
+    int yPosNew =
+        _logic->_bullets.at(i)->getPosY() +
+        _logic->_bullets.at(i)->getVeloY();
+
+    //
+    _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
+
+    // make sure bullet is in the field
+    if (xPosNew >= Logic::POINTS_MIN &&
+        (xPosNew + _logic->_bullets.at(i)->getObjWPoints()) <=
+            Logic::POINTS_MAX &&
+        yPosNew >= Logic::POINTS_MIN &&
+        (yPosNew + _logic->_bullets.at(i)->getObjHPoints()) <=
+            Logic::POINTS_MAX) {
+      // put on screen
+      _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
+    } else {
+  //     // delete
+  //     //_logic->_bullets.;
+    }
   }
 }
 

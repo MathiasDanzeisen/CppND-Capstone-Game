@@ -22,7 +22,9 @@ private:
   std::shared_ptr<Logic> _logic;
 
   //
-  static constexpr int  _SPEED_CONST{1};  // const speed of player: points per frame
+  static constexpr int  _SPEED_INC_PLAYER{1};  // speed increment of player: points per frame
+  static constexpr int  _SPEED_CONST_BULLET{10};  // const speed of bullet: points per frame
+
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include "renderer.h"
 #include "SDL_image.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
-#include <algorithm>
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height)
@@ -47,22 +47,23 @@ void Renderer::Clear() {
 void Renderer::Init(Logic *logic) {
 
   // player
-  initObject2d(*(logic->_player1),"data/player_skunk.png", 30, 30 );
+  initObject2d(*(logic->_player1), "data/player_skunk.png", 30, 30);
 
-  logic->_bullets.emplace_back(std::make_unique<Object2d>());
-  // bullet
-  initObject2d(*(logic->_bullets.back()), "data/bullet_green_dn_1.png", 25, 25);
 }
 
 void Renderer::Render(Logic *logic) {
-  
+
   // put player on screen
   renderObject2d(*(logic->_player1));
 
   // render all bullets
-  for (long unsigned int i = 0; i < logic->_bullets.size();i++) {
+  for (long unsigned int i = 0; i < logic->_bullets.size(); i++) {
+    if (logic->_bullets.at(i)->getTexture() != nullptr) {
       renderObject2d(*(logic->_bullets.at(i)));
-   }
+    } else {
+      initObject2d(*(logic->_bullets.at(i)), "data/bullet_green_dn_1.png", 25, 25);
+    }
+  }
 
   // Update screen
   SDL_RenderPresent(_sdlRenderer);
