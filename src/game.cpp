@@ -1,8 +1,11 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "logic.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height){
+Game::Game() {
+  _logic = std::make_shared<Logic>();
+
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -12,15 +15,23 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
+  bool running = true; 
+
+  // TODO: Init
+  renderer.Init(_logic.get());
+  //this->_player1= texture ;
 
   while (running) {
     frame_start = SDL_GetTicks();
 
+    // Clean screen
+    renderer.Clear();
+
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running);
+    _logic->_player1->moveToPos(_logic->_player1->getPosX()+1,_logic->_player1->getPosX()+1);
     Update();
-    renderer.Render();
+    renderer.Render(_logic.get());
 
     frame_end = SDL_GetTicks();
 

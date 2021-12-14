@@ -9,7 +9,8 @@ add_executable(Game
     src/main.cpp 
     src/game.cpp 
     src/controller.cpp 
-    src/renderer.cpp 
+    src/renderer.cpp
+    src/logic.cpp 
     src/object2d.cpp
 )
 
