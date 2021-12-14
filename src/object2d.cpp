@@ -3,7 +3,7 @@
 #include <iostream>
 
 // constructor
-Object2d::Object2d() : _image_path(""), _texture(nullptr) {}
+Object2d::Object2d() : _texture(nullptr) {}
 
 // destructor
 Object2d::~Object2d() {
