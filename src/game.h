@@ -17,14 +17,21 @@ public:
 
 
 private:
-  int score{0};
+
   void Update();
+
+  int score{0};
+
   std::shared_ptr<Logic> _logic;
 
+  std::random_device dev;
+  std::mt19937 engine;
+  std::uniform_int_distribution<int> random_w;
+  std::uniform_int_distribution<int> random_h;
   //
   static constexpr int  _SPEED_INC_PLAYER{1};  // speed increment of player: points per frame
-  static constexpr int  _SPEED_CONST_BULLET{10};  // const speed of bullet: points per frame
-
+  static constexpr int  _SPEED_CONST_BULLET{-10};  // const speed of bullet: points per frame
+  static constexpr int  _SPEED_CONST_ENEMY{10};
 };
 
 #endif

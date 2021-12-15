@@ -3,7 +3,13 @@
 #include "logic.h"
 #include <iostream>
 
-Game::Game() { _logic = std::make_shared<Logic>(); }
+// Constrctor
+//  Set sporn threadsholds for enemies in random generator
+Game::Game()
+    : engine(dev()), random_w(Logic::POINTS_MIN, Logic::POINTS_MAX),
+      random_h(Logic::POINTS_MIN, std::ceil(Logic::POINTS_MAX * 0.3)) {
+  _logic = std::make_shared<Logic>();
+}
 
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
@@ -14,8 +20,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
-  // TODO: Init
+  // Init
+  // Move player to intial position
+  _logic->_player1->moveToPos(std::ceil(Logic::POINTS_MAX * 0.5),
+                              std::ceil(Logic::POINTS_MAX * 0.9));
   renderer.Init(_logic.get());
+
+  // TODO: remove
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -70,7 +81,7 @@ void Game::Update() {
 
   /////////////////////
   // player
-  // Set speed of plyer
+  // Set speed of player
 
   if (_logic->keyInDown) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
@@ -98,67 +109,78 @@ void Game::Update() {
       (xPosNew + _logic->_player1->getObjWPoints()) <= Logic::POINTS_MAX &&
       yPosNew >= Logic::POINTS_MIN &&
       (yPosNew + _logic->_player1->getObjHPoints()) <= Logic::POINTS_MAX) {
+    // move player
     _logic->_player1->moveToPos(xPosNew, yPosNew);
   } else {
+    // limit player movement
     _logic->_player1->setVelo(0, 0);
   }
-  // limit player movement
   // TODO:
 
-  // bullet
+  // Create bullet
   if (_logic->keyInAction1) {
     // add new bullet which travlles straight
     // *shoot upwards: neagtive y
     auto bul = std::make_unique<Object2d>();
-    bul->setVelo(0, -_SPEED_CONST_BULLET);
+    bul->setVelo(0, _SPEED_CONST_BULLET);
     bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
     _logic->_bullets.push_back(std::move(bul));
   }
-  // if (!_logic->_bullets.empty()) {
-    // update bullets
-    // for (auto it = _logic->_bullets.begin(); it != _logic->_bullets.end();) {
-      // int xPosNew = it->get()->getPosX() + it->get()->getVeloX();
-      // int yPosNew = it->get()->getPosY() + it->get()->getVeloY();
 
-      //   // make sure bullet is in the field
-      //   if (xPosNew >= Logic::POINTS_MIN &&
-      //       (xPosNew + it->get()->getObjWPoints()) <=
-      //           Logic::POINTS_MAX &&
-      //       yPosNew >= Logic::POINTS_MIN &&
-      //       (yPosNew + it->get()->getObjHPoints()) <=
-      //           Logic::POINTS_MAX) {
-      //     // put on screen
-      //    it->get()->moveToPos(xPosNew, yPosNew);
-      //   } else {
-      //     // delete
-      //     //_logic->_bullets.erase(it);
-      //   }
-  //   }
-  // }
+  // Iterate over all bullets: Update or delete
+  if (!_logic->_bullets.empty()) {
+    for (long unsigned int i = 0; i < _logic->_bullets.size(); i++) {
+      int xPosNew = _logic->_bullets.at(i)->getPosX() +
+                    _logic->_bullets.at(i)->getVeloX();
+      int yPosNew = _logic->_bullets.at(i)->getPosY() +
+                    _logic->_bullets.at(i)->getVeloY();
 
-  for (long unsigned int i = 0; i < _logic->_bullets.size(); i++) {
-    int xPosNew =
-        _logic->_bullets.at(i)->getPosX() +
-        _logic->_bullets.at(i)->getVeloX();
-    int yPosNew =
-        _logic->_bullets.at(i)->getPosY() +
-        _logic->_bullets.at(i)->getVeloY();
+      // check: bullet is in the field
+      if (xPosNew >= Logic::POINTS_MIN &&
+          (xPosNew + _logic->_bullets.at(i)->getObjWPoints()) <=
+              Logic::POINTS_MAX &&
+          yPosNew >= Logic::POINTS_MIN &&
+          (yPosNew + _logic->_bullets.at(i)->getObjHPoints()) <=
+              Logic::POINTS_MAX) {
+        // yes: Move bullet
+        _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
+      } else {
+        // no: delete
+        _logic->_bullets.erase(_logic->_bullets.begin() + i);
+      }
+    }
+  }
 
-    //
-    _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
+  // enemies
+  // Create random
+  int x_enem = random_w(engine);
+  int y_enem = random_h(engine);
+  auto enem = std::make_unique<Object2d>();
+  enem->setVelo(0, _SPEED_CONST_ENEMY);
+  enem->moveToPos(x_enem, y_enem);
+  _logic->_enemies.push_back(std::move(enem));
 
-    // make sure bullet is in the field
-    if (xPosNew >= Logic::POINTS_MIN &&
-        (xPosNew + _logic->_bullets.at(i)->getObjWPoints()) <=
-            Logic::POINTS_MAX &&
-        yPosNew >= Logic::POINTS_MIN &&
-        (yPosNew + _logic->_bullets.at(i)->getObjHPoints()) <=
-            Logic::POINTS_MAX) {
-      // put on screen
-      _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
-    } else {
-  //     // delete
-  //     //_logic->_bullets.;
+  // Iterate over all bullets: Update or delete
+  if (!_logic->_enemies.empty()) {
+    for (long unsigned int i = 0; i < _logic->_enemies.size(); i++) {
+      int xPosNew = _logic->_enemies.at(i)->getPosX() +
+                    _logic->_enemies.at(i)->getVeloX();
+      int yPosNew = _logic->_enemies.at(i)->getPosY() +
+                    _logic->_enemies.at(i)->getVeloY();
+
+      // check: bullet is in the field
+      if (xPosNew >= Logic::POINTS_MIN &&
+          (xPosNew + _logic->_enemies.at(i)->getObjWPoints()) <=
+              Logic::POINTS_MAX &&
+          yPosNew >= Logic::POINTS_MIN &&
+          (yPosNew + _logic->_enemies.at(i)->getObjHPoints()) <=
+              Logic::POINTS_MAX) {
+        // yes: Move bullet
+        _logic->_enemies.at(i)->moveToPos(xPosNew, yPosNew);
+      } else {
+        // no: delete
+        _logic->_enemies.erase(_logic->_enemies.begin() + i);
+      }
     }
   }
 }

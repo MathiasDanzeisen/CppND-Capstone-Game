@@ -65,6 +65,15 @@ void Renderer::Render(Logic *logic) {
     }
   }
 
+  // render all enmies
+  for (long unsigned int i = 0; i < logic->_enemies.size(); i++) {
+    if (logic->_enemies.at(i)->getTexture() != nullptr) {
+      renderObject2d(*(logic->_enemies.at(i)));
+    } else {
+      initObject2d(*(logic->_enemies.at(i)), "data/player_cat_red.png", 25, 25);
+    }
+  }
+
   // Update screen
   SDL_RenderPresent(_sdlRenderer);
 }
