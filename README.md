@@ -24,7 +24,7 @@
 3. Install depoendencies: `conan install -pr:b=default -s build_type=Debug ..`
 4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
 5. Compile: `cmake --build .`  # or just "`make`"
-6. Run it: `./Game`.
+6. Run it from the workspace directory (otherwise images are not beeing found): `cd .. & ./build/Game`. 
 
 
 ## CC Attribution-ShareAlike 4.0 International
