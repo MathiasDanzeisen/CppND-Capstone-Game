@@ -218,9 +218,9 @@ void Game::Update(bool &running)
         auto iterBullet = _logic->_bullets.begin();
         while (iterBullet != _logic->_bullets.end())
         {
+          // Was enemy hit bullet
           if ((*iterEnem)->checkCollision(*(*iterBullet)))
           {
-            std::cout << "collision enemy" << std::endl;
             deleteEnemy = true;
             break;
           }
