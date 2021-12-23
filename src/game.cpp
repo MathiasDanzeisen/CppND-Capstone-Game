@@ -39,7 +39,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, *_logic);
-    Update();
+    Update(running);
     renderer.Render(_logic.get());
 
     frame_end = SDL_GetTicks();
@@ -82,7 +82,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 // }
 // }
 
-void Game::Update()
+void Game::Update(bool &running)
 {
 
   /////////////////////
@@ -144,34 +144,37 @@ void Game::Update()
   // Iterate over all bullets: Update or delete
   if (!_logic->_bullets.empty())
   {
-    for (long unsigned int i = 0; i < _logic->_bullets.size(); i++)
+    auto iterBullet = _logic->_bullets.begin();
+
+    while (iterBullet != _logic->_bullets.end())
     {
-      int xPosNew = _logic->_bullets.at(i)->getPosX() +
-                    _logic->_bullets.at(i)->getVeloX();
-      int yPosNew = _logic->_bullets.at(i)->getPosY() +
-                    _logic->_bullets.at(i)->getVeloY();
+      int xPosNew = (*iterBullet)->getPosX() +
+                    (*iterBullet)->getVeloX();
+      int yPosNew = (*iterBullet)->getPosY() +
+                    (*iterBullet)->getVeloY();
 
       // check: bullet is in the field
       if (xPosNew >= Logic::POINTS_MIN &&
-          (xPosNew + _logic->_bullets.at(i)->getObjWPoints()) <=
+          (xPosNew + (*iterBullet)->getObjWPoints()) <=
               Logic::POINTS_MAX &&
           yPosNew >= Logic::POINTS_MIN &&
-          (yPosNew + _logic->_bullets.at(i)->getObjHPoints()) <=
+          (yPosNew + (*iterBullet)->getObjHPoints()) <=
               Logic::POINTS_MAX)
       {
-        // yes: Move bullet
-        _logic->_bullets.at(i)->moveToPos(xPosNew, yPosNew);
+        // bullet is in the field: Move bullet
+        (*iterBullet)->moveToPos(xPosNew, yPosNew);
+        iterBullet++;
       }
       else
       {
-        // no: delete
-        _logic->_bullets.erase(_logic->_bullets.begin() + i);
+        // bullet out of the field: delete
+        iterBullet = _logic->_bullets.erase(iterBullet);
       }
     }
   }
 
+  // add new enenmies
   enemySpornIntervall = 50;
-
   static int enemySpornCounter{0};
   if (enemySpornCounter >= enemySpornIntervall)
   {
@@ -183,33 +186,59 @@ void Game::Update()
   // Iterate over all enemies: Update or delete
   if (!_logic->_enemies.empty())
   {
-    for (long unsigned int i = 0; i < _logic->_enemies.size(); i++)
+    auto iterEnem = _logic->_enemies.begin();
+    while (iterEnem != _logic->_enemies.end())
     {
-      int xPosNew = _logic->_enemies.at(i)->getPosX() +
-                    _logic->_enemies.at(i)->getVeloX();
-      int yPosNew = _logic->_enemies.at(i)->getPosY() +
-                    _logic->_enemies.at(i)->getVeloY();
+      int xPosNew = (*iterEnem)->getPosX() +
+                    (*iterEnem)->getVeloX();
+      int yPosNew = (*iterEnem)->getPosY() +
+                    (*iterEnem)->getVeloY();
 
+      bool deleteEnemy = false;
       // check: enemy is in the field
       if (xPosNew >= Logic::POINTS_MIN &&
-          (xPosNew + _logic->_enemies.at(i)->getObjWPoints()) <=
+          (xPosNew + (*iterEnem)->getObjWPoints()) <=
               Logic::POINTS_MAX &&
           yPosNew >= Logic::POINTS_MIN &&
-          (yPosNew + _logic->_enemies.at(i)->getObjHPoints()) <=
+          (yPosNew + (*iterEnem)->getObjHPoints()) <=
               Logic::POINTS_MAX)
       {
-        // yes: Move bullet
-        _logic->_enemies.at(i)->moveToPos(xPosNew, yPosNew);
+        // Enemy is in the field: Move enemy
+        (*iterEnem)->moveToPos(xPosNew, yPosNew);
+
+        // check for collosion with player
+        if (_logic->_player1->checkCollision(*(*iterEnem)))
+        {
+          std::cout << "collision" << std::endl;
+          // #TODO: change this to player attribute -> player is alive
+          running = false;
+        }
+
+        // check enemies for collosion with bullets
+        auto iterBullet = _logic->_bullets.begin();
+        while (iterBullet != _logic->_bullets.end())
+        {
+          if ((*iterEnem)->checkCollision(*(*iterBullet)))
+          {
+            std::cout << "collision enemy" << std::endl;
+            deleteEnemy = true;
+            break;
+          }
+          iterBullet++;
+        }
+      }else{
+        // Enemy not in the field anymore: delete enemy
+        deleteEnemy = true;
+      }
+
+      if (!deleteEnemy)
+      {
+        iterEnem++;
       }
       else
       {
-        // no: delete
-        _logic->_enemies.erase(_logic->_enemies.begin() + i);
+        iterEnem = _logic->_enemies.erase(iterEnem);
       }
-      // #TODO: check for collosion with player
-      
-
-      // #TODO: check for collision wizth bullet
     }
   }
 }

@@ -39,10 +39,7 @@ Object2d &Object2d::operator=(Object2d &&other) {
   return *this;
 }
 
-bool Object2d::checkCollision(Object2d otherObj) const {
+bool Object2d::checkCollision(Object2d &otherObj) const {
   // check if x and y axix overlap
-  //std::max(this->get)
-//(MAX(x1, x2) < MIN(x1 + w1, x2 + w2)) && (MAX(y1, y2) < MIN(y1 + h1, y2 + h2));
-
-  return false;
+  return std::max(this->getPosX(), otherObj.getPosX()) < std::min(this->getPosX()+this->getObjWPoints(),otherObj.getPosX()+ otherObj.getObjWPoints()) &&  std::max(this->getPosY(), otherObj.getPosY()) < std::min(this->getPosY()+this->getObjHPoints(),otherObj.getPosY()+ otherObj.getObjHPoints());
 }

@@ -41,7 +41,7 @@ class Object2d {
         int getObjHPoints() const{return _objHeiPoints;};
 
         // 
-        bool checkCollision(Object2d otherObj) const;
+        bool checkCollision(Object2d & otherObj) const;
 
     private:
         //std::string _image_path; //TODO: remove

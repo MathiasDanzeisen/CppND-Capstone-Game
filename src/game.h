@@ -18,7 +18,7 @@ public:
 
 private:
 
-  void Update();
+  void Update(bool &running);
   void AddEnemy();
 
   int score{0};
