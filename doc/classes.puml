@@ -1,0 +1,30 @@
+@startuml
+class Game{
++Game()
++Run()
++GetScore()
+-Update()
+-score
+}
+
+class Controller {
+    +HandleInput()
+}
+
+class Object2d {
+    +Object2d()
+    -_image_path
+}
+
+class Renderer{
+    +Renderer()
+    +~Renderer()
+    +Render()
+    +UpdateWindowTitle()
+    -sdl_window
+    -sdl_renderer
+    -screen_width
+    -screen_height
+}
+
+@enduml
