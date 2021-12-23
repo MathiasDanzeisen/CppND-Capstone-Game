@@ -207,6 +207,7 @@ void Game::Update()
         _logic->_enemies.erase(_logic->_enemies.begin() + i);
       }
       // #TODO: check for collosion with player
+      
 
       // #TODO: check for collision wizth bullet
     }
