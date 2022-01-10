@@ -1,4 +1,6 @@
-# CPPND: Capstone Snake Game Example
+# CPPND: Capstone Game
+In this game you play a lonely animal and need to defeat yourself against all attracts to survive and be successful in the game.
+
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -26,10 +28,40 @@
 5. Compile: `cmake --build .`  # or just "`make`"
 6. Run it: `./Game`.
 
+## File and folder strcuture
+.
+├── .vscode         -> configuration of vscode IDE 
+├── CMakeLists.txt  -> cmake file fot the build    
+├── CODEOWNERS  
+├── conanfile.txt -> configuration file for conan dependency management 
+├── data          -> files like images which are needed in the program
+├── LICENSE.md
+├── README.md     -> This readme
+└── src           -> Source and header files
+    ├── controller.cpp
+    ├── controller.h
+    ├── game.cpp
+    ├── game.h
+    ├── logic.cpp
+    ├── logic.h
+    ├── main.cpp
+    ├── object2d.cpp
+    ├── object2d.h
+    ├── renderer.cpp
+    └── renderer.h
+
+## checklist
+* Compiling and Testing 
+  * ✓ The submission must compile and run.
+* Loops, Functions, I/O
+  1. The project demonstrates an understanding of C++ functions and control structures.
+  2. The project accepts user input and processes the input.
+  3. third
+   
+
+
 
 ## CC Attribution-ShareAlike 4.0 International
-
-
 Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
 
 This work is licensed under a
@@ -42,5 +74,9 @@ This work is licensed under a
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
 ## Attribution Freepik
-player_skunk.png: Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-player_cat*.png: <div>Icons made by <a href="https://www.flaticon.com/authors/iconfield" title="iconfield">iconfield</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+* player_skunk.png: Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+* player_cat*.png: <div>Icons made by <a href="https://www.flaticon.com/authors/iconfield" title="iconfield">iconfield</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+
+
+
