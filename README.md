@@ -56,7 +56,7 @@ In this game you play a lonely animal and need to defeat yourself against all at
 * Loops, Functions, I/O
   1. The project demonstrates an understanding of C++ functions and control structures.
   2. The project accepts user input and processes the input.
-  3. third
+* 
    
 
 

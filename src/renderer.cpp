@@ -47,7 +47,7 @@ void Renderer::Clear() {
 void Renderer::Init(Logic *logic) {
 
   // player
-  initObject2d(*(logic->_player1), "data/player_skunk.png", 30, 30);
+  initObject2d(*(logic->_player1), "data/player_skunk1.png", 40, 40);
 
 }
 
