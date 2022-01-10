@@ -26,7 +26,7 @@ In this game you play a lonely animal and need to defeat yourself against all at
 3. Install depoendencies: `conan install -pr:b=default -s build_type=Debug ..`
 4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
 5. Compile: `cmake --build .`  # or just "`make`"
-6. Run it: `./Game`.
+6. Run it from the workspace directory (otherwise images are not beeing found): `cd .. & ./build/Game`. 
 
 ## File and folder strcuture
 .
@@ -74,9 +74,9 @@ This work is licensed under a
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
 ## Attribution Freepik
-* player_skunk.png: Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-* player_cat*.png: <div>Icons made by <a href="https://www.flaticon.com/authors/iconfield" title="iconfield">iconfield</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+player_skunk.png: Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+player_cat*.png: <div>Icons made by <a href="https://www.flaticon.com/authors/iconfield" title="iconfield">iconfield</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
+## Misc Attribution
 
-
-
+background_alley-gceda_1920.jpg https://pixabay.com/images/id-89197/

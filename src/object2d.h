@@ -22,9 +22,10 @@ class Object2d {
         void setTexture(SDL_Texture* texture)  {_texture=texture;};
         SDL_Texture* getTexture() const {return _texture;};
 
+        // postion in points (not in pixels)
         void moveToPos(int x, int y){ _posX=x;_posY=y;};
-        int getPosX() const{return _posX;};
-        int getPosY() const{return _posY;};
+        int getPosX() const{return _posX;}; 
+        int getPosY() const{return _posY;}; 
 
         // object velocity (points per frame)
         void setVelo(int dx, int dy){_veloX = dx; _veloY=dy;};
@@ -38,6 +39,9 @@ class Object2d {
         void setObjSizePoints(int w, int h){_objWidPoints=w; _objHeiPoints=h;};
         int getObjWPoints() const{return _objWidPoints;};
         int getObjHPoints() const{return _objHeiPoints;};
+
+        // 
+        bool checkCollision(Object2d & otherObj) const;
 
     private:
         //std::string _image_path; //TODO: remove

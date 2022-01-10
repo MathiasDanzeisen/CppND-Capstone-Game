@@ -1,6 +1,7 @@
 #include "object2d.h"
 #include "logic.h"
 #include <cmath>
+#include <algorithm>
 #include <iostream>
 
 // constructor
@@ -36,4 +37,9 @@ Object2d &Object2d::operator=(Object2d &&other) {
 
   other.setTexture(nullptr);
   return *this;
+}
+
+bool Object2d::checkCollision(Object2d &otherObj) const {
+  // check if x and y axix overlap
+  return std::max(this->getPosX(), otherObj.getPosX()) < std::min(this->getPosX()+this->getObjWPoints(),otherObj.getPosX()+ otherObj.getObjWPoints()) &&  std::max(this->getPosY(), otherObj.getPosY()) < std::min(this->getPosY()+this->getObjHPoints(),otherObj.getPosY()+ otherObj.getObjHPoints());
 }

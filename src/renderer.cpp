@@ -53,6 +53,22 @@ void Renderer::Init(Logic *logic) {
 
 void Renderer::Render(Logic *logic) {
 
+  // Render background
+    static SDL_Rect dest;
+		dest.x = 0;
+		dest.y = 0;
+		dest.w = _screenWidth;
+		dest.h = _screenHeight;
+
+  // TODO: set file names in header file
+  static SDL_Texture *textureBackgrd = IMG_LoadTexture(_sdlRenderer, "data/background_alley-gceda_1920.jpg");
+  // #TODO: do error handling
+  if (textureBackgrd == nullptr) {
+    std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
+  }
+  SDL_RenderCopy(_sdlRenderer, textureBackgrd, NULL, &dest);
+
+
   // put player on screen
   renderObject2d(*(logic->_player1));
 
@@ -88,6 +104,7 @@ void Renderer::initObject2d(Object2d &obj, const std::string filename,
                             const int wPix, const int hPix) {
 
   SDL_Texture *texture = IMG_LoadTexture(_sdlRenderer, filename.c_str());
+  // #TODO: do error handling
   if (texture == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
   }

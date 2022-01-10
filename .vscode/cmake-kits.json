@@ -1,20 +1,6 @@
 [
-    {
-      "name": "Conan toolchain build",
-      "toolchainFile": "build/conan_toolchain.cmake"
-    },
-    {
-      "name": "Clang 12.0.0 x86_64-pc-linux-gnu",
-      "compilers": {
-        "C": "/bin/clang-12",
-        "CXX": "/bin/clang++-12"
-      }
-    },
-    {
-      "name": "GCC 10.3.0 x86_64-linux-gnu",
-      "compilers": {
-        "C": "/bin/x86_64-linux-gnu-gcc-10",
-        "CXX": "/bin/x86_64-linux-gnu-g++-10"
-      }
-    }
-  ]
+  {
+    "name": "Conan toolchain build",
+    "toolchainFile": "build/conan_toolchain.cmake"
+  }
+]

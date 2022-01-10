@@ -18,9 +18,11 @@ public:
 
 private:
 
-  void Update();
+  void Update(bool &running);
+  void AddEnemy();
 
   int score{0};
+  int enemySpornIntervall{10}; // Enemy is created every x frames
 
   std::shared_ptr<Logic> _logic;
 
