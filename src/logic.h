@@ -26,6 +26,7 @@ class Logic {
         std::unique_ptr<Object2d> _player1;
         std::vector<std::unique_ptr<Object2d>> _bullets;
         std::vector<std::unique_ptr<Object2d>> _enemies;
+
     private:
 };
 

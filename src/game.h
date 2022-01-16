@@ -13,7 +13,7 @@ public:
   Game();
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
-  int GetScore() const;
+  long int GetScore() const;
 
 
 private:
@@ -21,7 +21,7 @@ private:
   void Update(bool &running);
   void AddEnemy();
 
-  int score{0};
+  long int score{0};
   int enemySpornIntervall{10}; // Enemy is created every x frames
 
   std::shared_ptr<Logic> _logic;
