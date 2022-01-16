@@ -6,8 +6,8 @@
 // Constrctor
 //  Set sporn threadsholds for enemies in random generator
 Game::Game()
-    : engine(dev()), random_w(Logic::POINTS_MIN, Logic::POINTS_MAX),
-      random_h(Logic::POINTS_MIN, std::ceil(Logic::POINTS_MAX * 0.3)) {
+    : engine(dev()), _random_w(Logic::POINTS_MIN, Logic::POINTS_MAX),
+      _random_h(Logic::POINTS_MIN, std::ceil(Logic::POINTS_MAX * 0.3)) {
   _logic = std::make_shared<Logic>();
 }
 
@@ -48,7 +48,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(_score, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -70,18 +70,18 @@ void Game::Update(bool &running) {
 
   if (_logic->keyInDown) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() + _SPEED_INC_PLAYER);
+                              _logic->_player1->getVeloY() + _PLAYER_SPEED_INC);
   }
   if (_logic->keyInUp) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() - _SPEED_INC_PLAYER);
+                              _logic->_player1->getVeloY() - _PLAYER_SPEED_INC);
   }
   if (_logic->keyInLeft) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _SPEED_INC_PLAYER,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _PLAYER_SPEED_INC,
                               _logic->_player1->getVeloY());
   }
   if (_logic->keyInRight) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _SPEED_INC_PLAYER,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _PLAYER_SPEED_INC,
                               _logic->_player1->getVeloY());
   }
 
@@ -103,10 +103,10 @@ void Game::Update(bool &running) {
 
   // Create bullet
   if (_logic->keyInAction1) {
-    // add new bullet which travlles straight
-    // *shoot upwards: neagtive y
+    // add new bullet which travels straight
+    // *shoot upwards: negative y
     auto bul = std::make_unique<Object2d>();
-    bul->setVelo(0, _SPEED_CONST_BULLET);
+    bul->setVelo(0, _BULLET_SPEED_CONST);
     bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
     _logic->_bullets.push_back(std::move(bul));
   }
@@ -134,10 +134,9 @@ void Game::Update(bool &running) {
     }
   }
 
-  // add new enenmies
-  enemySpornIntervall = 50;
+  // add new enemies
   static int enemySpornCounter{0};
-  if (enemySpornCounter >= enemySpornIntervall) {
+  if (enemySpornCounter >= _enemySpornIntervall) {
     AddEnemy();
     enemySpornCounter = 0;
   }
@@ -152,6 +151,7 @@ void Game::Update(bool &running) {
 
       bool deleteEnemy = false;
       // check: enemy is in the field
+      //  TODO: move check if object is in the field
       if (xPosNew >= Logic::POINTS_MIN &&
           (xPosNew + (*iterEnem)->getObjWPoints()) <= Logic::POINTS_MAX &&
           yPosNew >= Logic::POINTS_MIN &&
@@ -173,7 +173,7 @@ void Game::Update(bool &running) {
           //  delete enemy and increase score
           if ((*iterEnem)->checkCollision(*(*iterBullet))) {
             deleteEnemy = true;
-            score = score + 1;
+            _score = _score + 1;
             break;
           }
           iterBullet++;
@@ -182,8 +182,8 @@ void Game::Update(bool &running) {
         // Enemy not in the field anymore:
         //  delete enemy + reduce score
         deleteEnemy = true;
-        if (score > 0)
-          score = score - 1;
+        if (_score > 0)
+          _score = _score - 1;
       }
 
       if (!deleteEnemy) {
@@ -193,19 +193,27 @@ void Game::Update(bool &running) {
       }
     }
   }
-  // TODO: set rate of enemies
-  
+  // Set Difficulty according to score
+  if ( GetScore() >= _DIFFICULTY_LEVEL_SCORE_BASE ){
+    // calc dificulty level
+    int level = (GetScore() - _DIFFICULTY_LEVEL_SCORE_BASE)/_DIFFICULTY_LEVEL_SCORE_INTERVALL;
+
+    // Adjust enemy sporn rate according to difficulty 
+    _enemySpornIntervall = _ENEMY_SPORN_INTERVALL_INIT + level*_ENEMY_SPORN_INTERVALL_LEV_INC;
+    // Adjust enemy speed according to difficulty
+    _enemySpeed = _ENEMY_SPEED_INIT + level*_ENEMY_SPEED_LEV_INC;
+  }  
 }
 
 void Game::AddEnemy() {
   // enemies
   // Create random
-  int x_enem = random_w(engine);
-  int y_enem = random_h(engine);
+  int x_enem = _random_w(engine);
+  int y_enem = _random_h(engine);
   auto enem = std::make_unique<Object2d>();
-  enem->setVelo(0, _SPEED_CONST_ENEMY);
+  enem->setVelo(0, _enemySpeed);
   enem->moveToPos(x_enem, y_enem);
   _logic->_enemies.push_back(std::move(enem));
 }
 
-long int Game::GetScore() const { return score; }
+long int Game::GetScore() const { return _score; }
