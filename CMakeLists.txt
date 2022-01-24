@@ -12,6 +12,7 @@ add_executable(Game
     src/renderer.cpp
     src/logic.cpp 
     src/object2d.cpp
+    src/player.cpp
 )
 
 
