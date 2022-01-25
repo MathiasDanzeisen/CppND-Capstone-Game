@@ -57,7 +57,9 @@ In this game you play a lonely animal and need to defeat yourself against all at
   * ✓ The submission must compile and run.
 * Loops, Functions, I/O
   1. The project demonstrates an understanding of C++ functions and control structures.
+     - see: `class Game`
   2. The project accepts user input and processes the input.
+     - see: `Controller::HandleInput(bool &running, Logic &logic) `
 * 
    
 
