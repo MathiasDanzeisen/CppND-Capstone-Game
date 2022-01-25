@@ -29,6 +29,7 @@ In this game you play a lonely animal and need to defeat yourself against all at
 6. Run it from the workspace directory (otherwise images are not beeing found): `cd .. & ./build/Game`. 
 
 ## File and folder strcuture
+```
 .
 ├── .vscode         -> configuration of vscode IDE 
 ├── CMakeLists.txt  -> cmake file fot the build    
@@ -49,6 +50,7 @@ In this game you play a lonely animal and need to defeat yourself against all at
     ├── object2d.h
     ├── renderer.cpp
     └── renderer.h
+```
 
 ## checklist
 * Compiling and Testing 
