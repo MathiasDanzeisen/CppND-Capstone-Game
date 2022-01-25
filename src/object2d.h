@@ -28,9 +28,10 @@ class Object2d {
         int getPosY() const{return _posY;}; 
 
         // object velocity (points per frame)
-        void setVelo(int dx, int dy){_veloX = dx; _veloY=dy;};
+        void setVelo(int vx, int vy){_veloX = vx; _veloY=vy;};
         int getVeloX()const{return _veloX;};
         int getVeloY()const{return _veloY;};
+        void accelerate(int d_vx, int d_vy){_veloX = _veloX+d_vx; _veloY=_veloY+d_vy;};
 
         //object size
         void setObjSizePix(int w, int h){_objWidPix=w; _objHeiPix=h;};

@@ -69,20 +69,16 @@ void Game::Update(bool &running) {
   // Set speed of player
 
   if (_logic->keyInDown) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() + config::PLAYER_SPEED_INC);
+    _logic->_player1->accelerate(0,config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInUp) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() - config::PLAYER_SPEED_INC);
+    _logic->_player1->accelerate(0, -config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInLeft) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() - config::PLAYER_SPEED_INC,
-                              _logic->_player1->getVeloY());
+    _logic->_player1->accelerate( -config::PLAYER_SPEED_INC, 0);
   }
   if (_logic->keyInRight) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() + config::PLAYER_SPEED_INC,
-                              _logic->_player1->getVeloY());
+    _logic->_player1->accelerate(config::PLAYER_SPEED_INC, 0);
   }
 
   // update player
