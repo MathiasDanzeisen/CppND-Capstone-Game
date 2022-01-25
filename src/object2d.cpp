@@ -1,7 +1,7 @@
 #include "object2d.h"
 #include "logic.h"
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 // constructor
@@ -41,5 +41,10 @@ Object2d &Object2d::operator=(Object2d &&other) {
 
 bool Object2d::checkCollision(Object2d &otherObj) const {
   // check if x and y axis overlap
-  return std::max(this->getPosX(), otherObj.getPosX()) < std::min(this->getPosX()+this->getObjWPoints(),otherObj.getPosX()+ otherObj.getObjWPoints()) &&  std::max(this->getPosY(), otherObj.getPosY()) < std::min(this->getPosY()+this->getObjHPoints(),otherObj.getPosY()+ otherObj.getObjHPoints());
+  return std::max(this->getPosX(), otherObj.getPosX()) <
+             std::min(this->getPosX() + this->getObjWPoints(),
+                      otherObj.getPosX() + otherObj.getObjWPoints()) &&
+         std::max(this->getPosY(), otherObj.getPosY()) <
+             std::min(this->getPosY() + this->getObjHPoints(),
+                      otherObj.getPosY() + otherObj.getObjHPoints());
 }

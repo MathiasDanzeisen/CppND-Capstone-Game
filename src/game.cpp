@@ -4,10 +4,10 @@
 #include <iostream>
 
 // Constrctor
-//  Set sporn threadsholds for enemies in random generator
+//  Set sporn thresholds for enemies in random generator
 Game::Game()
-    : engine(dev()), _random_w(Logic::POINTS_MIN, Logic::POINTS_MAX),
-      _random_h(Logic::POINTS_MIN, std::ceil(Logic::POINTS_MAX * 0.3)) {
+    : engine(dev()), _random_w(config::VRES_POINTS_MIN, config::VRES_POINTS_MAX),
+      _random_h(config::VRES_POINTS_MIN, std::ceil(config::VRES_POINTS_MAX * 0.3)) {
   _logic = std::make_shared<Logic>();
 }
 
@@ -21,9 +21,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   bool running = true;
 
   // Init
-  // Move player to intial position
-  _logic->_player1->moveToPos(std::ceil(Logic::POINTS_MAX * 0.5),
-                              std::ceil(Logic::POINTS_MAX * 0.9));
+  // Move player to initial position
+  _logic->_player1->moveToPos(std::ceil(config::VRES_POINTS_MAX * 0.5),
+                              std::ceil(config::VRES_POINTS_MAX * 0.9));
   renderer.Init(_logic.get());
 
   // TODO: remove
@@ -70,18 +70,18 @@ void Game::Update(bool &running) {
 
   if (_logic->keyInDown) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() + _PLAYER_SPEED_INC);
+                              _logic->_player1->getVeloY() + config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInUp) {
     _logic->_player1->setVelo(_logic->_player1->getVeloX(),
-                              _logic->_player1->getVeloY() - _PLAYER_SPEED_INC);
+                              _logic->_player1->getVeloY() - config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInLeft) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() - _PLAYER_SPEED_INC,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() - config::PLAYER_SPEED_INC,
                               _logic->_player1->getVeloY());
   }
   if (_logic->keyInRight) {
-    _logic->_player1->setVelo(_logic->_player1->getVeloX() + _PLAYER_SPEED_INC,
+    _logic->_player1->setVelo(_logic->_player1->getVeloX() + config::PLAYER_SPEED_INC,
                               _logic->_player1->getVeloY());
   }
 
@@ -90,10 +90,10 @@ void Game::Update(bool &running) {
   int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
 
   // make sure player is in the field
-  if (xPosNew >= Logic::POINTS_MIN &&
-      (xPosNew + _logic->_player1->getObjWPoints()) <= Logic::POINTS_MAX &&
-      yPosNew >= Logic::POINTS_MIN &&
-      (yPosNew + _logic->_player1->getObjHPoints()) <= Logic::POINTS_MAX) {
+  if (xPosNew >= config::VRES_POINTS_MIN &&
+      (xPosNew + _logic->_player1->getObjWPoints()) <= config::VRES_POINTS_MAX &&
+      yPosNew >= config::VRES_POINTS_MIN &&
+      (yPosNew + _logic->_player1->getObjHPoints()) <= config::VRES_POINTS_MAX) {
     // move player
     _logic->_player1->moveToPos(xPosNew, yPosNew);
   } else {
@@ -106,7 +106,7 @@ void Game::Update(bool &running) {
     // add new bullet which travels straight
     // *shoot upwards: negative y
     auto bul = std::make_unique<Object2d>();
-    bul->setVelo(0, _BULLET_SPEED_CONST);
+    bul->setVelo(0, config::BULLET_SPEED_CONST);
     bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
     _logic->_bullets.push_back(std::move(bul));
   }
@@ -120,10 +120,10 @@ void Game::Update(bool &running) {
       int yPosNew = (*iterBullet)->getPosY() + (*iterBullet)->getVeloY();
 
       // check: bullet is in the field
-      if (xPosNew >= Logic::POINTS_MIN &&
-          (xPosNew + (*iterBullet)->getObjWPoints()) <= Logic::POINTS_MAX &&
-          yPosNew >= Logic::POINTS_MIN &&
-          (yPosNew + (*iterBullet)->getObjHPoints()) <= Logic::POINTS_MAX) {
+      if (xPosNew >= config::VRES_POINTS_MIN &&
+          (xPosNew + (*iterBullet)->getObjWPoints()) <= config::VRES_POINTS_MAX &&
+          yPosNew >= config::VRES_POINTS_MIN &&
+          (yPosNew + (*iterBullet)->getObjHPoints()) <= config::VRES_POINTS_MAX) {
         // bullet is in the field: Move bullet
         (*iterBullet)->moveToPos(xPosNew, yPosNew);
         iterBullet++;
@@ -152,10 +152,10 @@ void Game::Update(bool &running) {
       bool deleteEnemy = false;
       // check: enemy is in the field
       //  TODO: move check if object is in the field
-      if (xPosNew >= Logic::POINTS_MIN &&
-          (xPosNew + (*iterEnem)->getObjWPoints()) <= Logic::POINTS_MAX &&
-          yPosNew >= Logic::POINTS_MIN &&
-          (yPosNew + (*iterEnem)->getObjHPoints()) <= Logic::POINTS_MAX) {
+      if (xPosNew >= config::VRES_POINTS_MIN &&
+          (xPosNew + (*iterEnem)->getObjWPoints()) <= config::VRES_POINTS_MAX &&
+          yPosNew >= config::VRES_POINTS_MIN &&
+          (yPosNew + (*iterEnem)->getObjHPoints()) <= config::VRES_POINTS_MAX) {
         // Enemy is in the field: Move enemy
         (*iterEnem)->moveToPos(xPosNew, yPosNew);
 
@@ -194,14 +194,14 @@ void Game::Update(bool &running) {
     }
   }
   // Set Difficulty according to score
-  if ( GetScore() >= _DIFFICULTY_LEVEL_SCORE_BASE ){
+  if ( GetScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE ){
     // calc dificulty level
-    int level = (GetScore() - _DIFFICULTY_LEVEL_SCORE_BASE)/_DIFFICULTY_LEVEL_SCORE_INTERVALL;
+    int level = (GetScore() - config::DIFFICULTY_LEVEL_SCORE_BASE)/config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
 
     // Adjust enemy sporn rate according to difficulty 
-    _enemySpornIntervall = _ENEMY_SPORN_INTERVALL_INIT + level*_ENEMY_SPORN_INTERVALL_LEV_INC;
+    _enemySpornIntervall = config::ENEMY_SPORN_INTERVALL_INIT + level*config::ENEMY_SPORN_INTERVALL_LEV_INC;
     // Adjust enemy speed according to difficulty
-    _enemySpeed = _ENEMY_SPEED_INIT + level*_ENEMY_SPEED_LEV_INC;
+    _enemySpeed = config::ENEMY_SPEED_INIT + level*config::ENEMY_SPEED_LEV_INC;
   }  
 }
 

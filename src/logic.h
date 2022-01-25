@@ -19,9 +19,6 @@ class Logic {
         bool keyInLeft{false};
         bool keyInAction1{false}; 
 
-        static constexpr int POINTS_MIN{0};
-        static constexpr int POINTS_MAX{2000};  //virtual resolution
-
         //TODO: make private
         std::unique_ptr<Object2d> _player1;
         std::vector<std::unique_ptr<Object2d>> _bullets;

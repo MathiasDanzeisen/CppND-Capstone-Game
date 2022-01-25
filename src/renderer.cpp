@@ -1,3 +1,4 @@
+#include "config.h"
 #include "renderer.h"
 #include "SDL_image.h"
 #include <algorithm>
@@ -47,7 +48,7 @@ void Renderer::Clear() {
 void Renderer::Init(Logic *logic) {
 
   // player
-  initObject2d(*(logic->_player1), "data/player_skunk1.png", 40, 40);
+  initObject2d(*(logic->_player1), config::PLAYER1_GRAPIC_PATH, config::PLAYER1_GRAPIC_SIZE, config::PLAYER1_GRAPIC_SIZE);
 
 }
 
@@ -61,7 +62,7 @@ void Renderer::Render(Logic *logic) {
 		dest.h = _screenHeight;
 
   // TODO: set file names in header file
-  static SDL_Texture *textureBackgrd = IMG_LoadTexture(_sdlRenderer, "data/background_alley-gceda_1920.jpg");
+  static SDL_Texture *textureBackgrd = IMG_LoadTexture(_sdlRenderer, config::BACKGROUND_GRAPIC_PATH);
   // #TODO: do error handling
   if (textureBackgrd == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
@@ -77,7 +78,7 @@ void Renderer::Render(Logic *logic) {
     if (logic->_bullets.at(i)->getTexture() != nullptr) {
       renderObject2d(*(logic->_bullets.at(i)));
     } else {
-      initObject2d(*(logic->_bullets.at(i)), "data/bullet_green_dn_1.png", 25, 25);
+      initObject2d(*(logic->_bullets.at(i)), config::BULLET_GRAPIC_PATH, config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
     }
   }
 
@@ -86,7 +87,7 @@ void Renderer::Render(Logic *logic) {
     if (logic->_enemies.at(i)->getTexture() != nullptr) {
       renderObject2d(*(logic->_enemies.at(i)));
     } else {
-      initObject2d(*(logic->_enemies.at(i)), "data/player_cat_red.png", 25, 25);
+      initObject2d(*(logic->_enemies.at(i)), config::ENEMY_GRAPIC_PATH, config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
     }
   }
 
@@ -115,16 +116,16 @@ void Renderer::initObject2d(Object2d &obj, const std::string filename,
 
   obj.setObjSizePix(wPix, hPix);
   obj.setObjSizePoints(
-      std::div(wPix * Logic::POINTS_MAX, this->_screenWidth).quot,
-      std::div(hPix * Logic::POINTS_MAX, this->_screenHeight).quot);
+      std::div(wPix * config::VRES_POINTS_MAX, this->_screenWidth).quot,
+      std::div(hPix * config::VRES_POINTS_MAX, this->_screenHeight).quot);
 }
 
 void Renderer::renderObject2d(const Object2d &obj2d) {
   // rendering
   int x =
-      std::div(obj2d.getPosX() * this->_screenWidth, Logic::POINTS_MAX).quot;
+      std::div(obj2d.getPosX() * this->_screenWidth, config::VRES_POINTS_MAX).quot;
   int y =
-      std::div(obj2d.getPosY() * this->_screenHeight, Logic::POINTS_MAX).quot;
+      std::div(obj2d.getPosY() * this->_screenHeight, config::VRES_POINTS_MAX).quot;
 
   SDL_Rect dest = {x, y, obj2d.getObjWPix(), obj2d.getObjHPix()};
 

@@ -46,8 +46,8 @@ class Object2d {
     private:
         //std::string _image_path; //TODO: remove
         SDL_Texture *_texture;
-        int _posX{0};   //postion in POINTS_MIN..POINTS_MAX points of screen
-        int _posY{0};   //postion in POINTS_MIN..POINTS_MAX points of screen
+        int _posX{0};   //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
+        int _posY{0};   //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
         int _veloX{0};  //speed in points per frame
         int _veloY{0};  //
         int _objWidPix{0};   // object Width in pixel
