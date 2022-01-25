@@ -22,7 +22,7 @@ class Object2d {
         void setTexture(SDL_Texture* texture)  {_texture=texture;};
         SDL_Texture* getTexture() const {return _texture;};
 
-        // postion in points (not in pixels)
+        // position in points (not in pixels)
         void moveToPos(int x, int y){ _posX=x;_posY=y;};
         int getPosX() const{return _posX;}; 
         int getPosY() const{return _posY;}; 

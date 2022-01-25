@@ -81,7 +81,7 @@ void Renderer::Render(Logic *logic) {
     }
   }
 
-  // render all enmies
+  // render all enemies
   for (long unsigned int i = 0; i < logic->_enemies.size(); i++) {
     if (logic->_enemies.at(i)->getTexture() != nullptr) {
       renderObject2d(*(logic->_enemies.at(i)));
@@ -128,6 +128,6 @@ void Renderer::renderObject2d(const Object2d &obj2d) {
 
   SDL_Rect dest = {x, y, obj2d.getObjWPix(), obj2d.getObjHPix()};
 
-  // Render texture with orignal size to dest.x & dest.y
+  // Render texture with original size to dest.x & dest.y
   SDL_RenderCopy(_sdlRenderer, obj2d.getTexture(), NULL, &dest);
 }

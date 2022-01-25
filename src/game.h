@@ -35,7 +35,7 @@ private:
   // game config
   static constexpr int  _PLAYER_SPEED_INC{1};  // speed increment of player: points per frame
   static constexpr int  _BULLET_SPEED_CONST{-10};  // const speed of bullet: points per frame
-  // _SPEED_ENEMY: constant speed of the enenmy
+  // _SPEED_ENEMY: constant speed of the enemy
   static constexpr int  _ENEMY_SPEED_INIT{5};  // init value
   static constexpr int  _ENEMY_SPEED_LEV_INC{1};  // increment for each difficulty level
 
