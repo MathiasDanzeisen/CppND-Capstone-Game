@@ -61,7 +61,6 @@ void Renderer::Render(Logic *logic) {
 		dest.w = _screenWidth;
 		dest.h = _screenHeight;
 
-  // TODO: set file names in header file
   static SDL_Texture *textureBackgrd = IMG_LoadTexture(_sdlRenderer, config::BACKGROUND_GRAPIC_PATH);
   // #TODO: do error handling
   if (textureBackgrd == nullptr) {
@@ -112,8 +111,9 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
 void Renderer::initObject2d(Object2d &obj, const std::string filename,
                             const int wPix, const int hPix) {
 
+  
   SDL_Texture *texture = IMG_LoadTexture(_sdlRenderer, filename.c_str());
-  // #TODO: do error handling
+  // do error handling
   if (texture == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
   }
@@ -123,20 +123,23 @@ void Renderer::initObject2d(Object2d &obj, const std::string filename,
   // SDL_QueryTexture(logic->_player1->getTexture(), NULL, NULL, &dest.w,
 
   obj.setObjSizePix(wPix, hPix);
-  obj.setObjSizePoints(
-      std::div(wPix * config::VRES_POINTS_MAX, this->_screenWidth).quot,
-      std::div(hPix * config::VRES_POINTS_MAX, this->_screenHeight).quot);
+  obj.setObjSizePoints(Pix2Pos(wPix),Pix2Pos(hPix));
 }
 
 void Renderer::renderObject2d(const Object2d &obj2d) {
   // rendering
-  int x =
-      std::div(obj2d.getPosX() * this->_screenWidth, config::VRES_POINTS_MAX).quot;
-  int y =
-      std::div(obj2d.getPosY() * this->_screenHeight, config::VRES_POINTS_MAX).quot;
+  int x = Pos2Pix(obj2d.getPosX());
+  int y = Pos2Pix(obj2d.getPosY());
 
   SDL_Rect dest = {x, y, obj2d.getObjWPix(), obj2d.getObjHPix()};
 
   // Render texture with original size to dest.x & dest.y
   SDL_RenderCopy(_sdlRenderer, obj2d.getTexture(), NULL, &dest);
+}
+
+int Renderer::Pix2Pos( int pix) const{
+  return std::div(pix * config::VRES_POINTS_MAX, this->_screenWidth).quot;
+}
+int Renderer::Pos2Pix( int pos) const{
+  return std::div(pos * this->_screenHeight, config::VRES_POINTS_MAX).quot;
 }

@@ -20,6 +20,12 @@ public:
   void Clear();
   void UpdateWindowTitle(int score, int fps);
 
+  //helpers
+  int Pix2Pos( int pix) const;
+  int Pos2Pix( int pos) const;
+
+
+
 private:
   SDL_Window *_sdlWindow;
   SDL_Renderer *_sdlRenderer;
