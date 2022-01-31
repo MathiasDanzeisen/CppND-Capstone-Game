@@ -86,10 +86,7 @@ void Game::Update(bool &running) {
   int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
 
   // make sure player is in the field
-  if (xPosNew >= config::VRES_POINTS_MIN &&
-      (xPosNew + _logic->_player1->getObjWPoints()) <= config::VRES_POINTS_MAX &&
-      yPosNew >= config::VRES_POINTS_MIN &&
-      (yPosNew + _logic->_player1->getObjHPoints()) <= config::VRES_POINTS_MAX) {
+  if(_logic->_player1->IsObjOnScreen( xPosNew, yPosNew)){
     // move player
     _logic->_player1->moveToPos(xPosNew, yPosNew);
   } else {
@@ -116,10 +113,7 @@ void Game::Update(bool &running) {
       int yPosNew = (*iterBullet)->getPosY() + (*iterBullet)->getVeloY();
 
       // check: bullet is in the field
-      if (xPosNew >= config::VRES_POINTS_MIN &&
-          (xPosNew + (*iterBullet)->getObjWPoints()) <= config::VRES_POINTS_MAX &&
-          yPosNew >= config::VRES_POINTS_MIN &&
-          (yPosNew + (*iterBullet)->getObjHPoints()) <= config::VRES_POINTS_MAX) {
+      if ((*iterBullet)->IsObjOnScreen(xPosNew, yPosNew)) {
         // bullet is in the field: Move bullet
         (*iterBullet)->moveToPos(xPosNew, yPosNew);
         iterBullet++;
@@ -147,17 +141,13 @@ void Game::Update(bool &running) {
 
       bool deleteEnemy = false;
       // check: enemy is in the field
-      //  TODO: move check if object is in the field
-      if (xPosNew >= config::VRES_POINTS_MIN &&
-          (xPosNew + (*iterEnem)->getObjWPoints()) <= config::VRES_POINTS_MAX &&
-          yPosNew >= config::VRES_POINTS_MIN &&
-          (yPosNew + (*iterEnem)->getObjHPoints()) <= config::VRES_POINTS_MAX) {
+      if ((*iterEnem)->IsObjOnScreen(xPosNew, yPosNew)) {
         // Enemy is in the field: Move enemy
         (*iterEnem)->moveToPos(xPosNew, yPosNew);
 
         // check for collosion with player
         if (_logic->_player1->checkCollision(*(*iterEnem))) {
-          std::cout << "collision" << std::endl;
+          std::cout << "Game over!" << std::endl;
           // #TODO: change this to player attribute -> player is alive
           running = false;
         }

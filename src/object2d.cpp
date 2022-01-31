@@ -1,5 +1,6 @@
 #include "object2d.h"
 #include "logic.h"
+#include "config.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -47,4 +48,21 @@ bool Object2d::checkCollision(Object2d &otherObj) const {
          std::max(this->getPosY(), otherObj.getPosY()) <
              std::min(this->getPosY() + this->getObjHPoints(),
                       otherObj.getPosY() + otherObj.getObjHPoints());
+}
+
+bool Object2d::IsObjOnScreen (void) const{
+
+auto xPoints = this->getPosX();
+auto yPoints = this->getPosY();
+
+return this->IsObjOnScreen (xPoints, yPoints);
+
+}
+
+bool Object2d::IsObjOnScreen (int xPoints, int yPoints) const{
+
+  return (xPoints >= config::VRES_POINTS_MIN &&
+    (xPoints + this->getObjWPoints()) <= config::VRES_POINTS_MAX &&
+    yPoints >= config::VRES_POINTS_MIN &&
+    (yPoints + this->getObjHPoints()) <= config::VRES_POINTS_MAX);
 }

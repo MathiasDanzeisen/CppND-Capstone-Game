@@ -31,7 +31,8 @@ class Object2d {
         void setVelo(int vx, int vy){_veloX = vx; _veloY=vy;};
         int getVeloX()const{return _veloX;};
         int getVeloY()const{return _veloY;};
-        void accelerate(int d_vx, int d_vy){_veloX = _veloX+d_vx; _veloY=_veloY+d_vy;};
+        // object's increment or decrement of velocity (points per frame)
+        void accelerate(int dVx, int dVy){_veloX = _veloX+dVx; _veloY=_veloY+dVy;};
 
         //object size
         void setObjSizePix(int w, int h){_objWidPix=w; _objHeiPix=h;};
@@ -43,6 +44,11 @@ class Object2d {
 
         // 
         bool checkCollision(Object2d & otherObj) const;
+
+        // Check if object at the current position is completely on the screen
+        bool IsObjOnScreen (void) const;
+        // Check if object at the new position would be completely on the screen without moving it
+        bool IsObjOnScreen (int xPoints, int yPoints) const;
 
     private:
         //std::string _image_path; //TODO: remove
