@@ -3,10 +3,9 @@
 
 #include "SDL.h"
 #include "object2d.h"
-#include <vector>
+#include <list>
 #include <string>
 #include <memory>
-#include <vector>
 
 
 // base class for logic
@@ -21,8 +20,8 @@ class Logic {
 
         //TODO: make private
         std::unique_ptr<Object2d> _player1;
-        std::vector<std::unique_ptr<Object2d>> _bullets;
-        std::vector<std::unique_ptr<Object2d>> _enemies;
+        std::list<std::unique_ptr<Object2d>> _bullets;
+        std::list<std::unique_ptr<Object2d>> _enemies;
 
     private:
 };

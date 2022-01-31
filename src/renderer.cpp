@@ -74,20 +74,28 @@ void Renderer::Render(Logic *logic) {
   renderObject2d(*(logic->_player1));
 
   // render all bullets
-  for (long unsigned int i = 0; i < logic->_bullets.size(); i++) {
-    if (logic->_bullets.at(i)->getTexture() != nullptr) {
-      renderObject2d(*(logic->_bullets.at(i)));
-    } else {
-      initObject2d(*(logic->_bullets.at(i)), config::BULLET_GRAPIC_PATH, config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
+  if (!logic->_bullets.empty()){
+    auto iterBullet = logic->_bullets.begin();
+    while (iterBullet != logic->_bullets.end()) {
+      if ((*iterBullet)->getTexture() != nullptr) {
+        renderObject2d(*(*iterBullet));
+      } else {
+        initObject2d(*(*iterBullet), config::BULLET_GRAPIC_PATH, config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
+      }
+      iterBullet++;
     }
   }
 
   // render all enemies
-  for (long unsigned int i = 0; i < logic->_enemies.size(); i++) {
-    if (logic->_enemies.at(i)->getTexture() != nullptr) {
-      renderObject2d(*(logic->_enemies.at(i)));
-    } else {
-      initObject2d(*(logic->_enemies.at(i)), config::ENEMY_GRAPIC_PATH, config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
+  if (!logic->_enemies.empty()){
+    auto iterEnem = logic->_enemies.begin();
+    while (iterEnem != logic->_enemies.end()) {
+      if ((*iterEnem)->getTexture() != nullptr) {
+        renderObject2d(*(*iterEnem));
+      } else {
+        initObject2d(*(*iterEnem), config::ENEMY_GRAPIC_PATH, config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
+      }
+      iterEnem++;
     }
   }
 
