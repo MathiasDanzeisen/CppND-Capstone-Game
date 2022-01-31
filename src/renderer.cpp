@@ -75,8 +75,8 @@ void Renderer::Render(Logic *logic) {
 
   // render all bullets
   if (!logic->_bullets.empty()){
-    auto iterBullet = logic->_bullets.begin();
-    while (iterBullet != logic->_bullets.end()) {
+    auto iterBullet = logic->_bullets.cbegin();
+    while (iterBullet != logic->_bullets.cend()) {
       if ((*iterBullet)->getTexture() != nullptr) {
         renderObject2d(*(*iterBullet));
       } else {
@@ -88,8 +88,8 @@ void Renderer::Render(Logic *logic) {
 
   // render all enemies
   if (!logic->_enemies.empty()){
-    auto iterEnem = logic->_enemies.begin();
-    while (iterEnem != logic->_enemies.end()) {
+    auto iterEnem = logic->_enemies.cbegin();
+    while (iterEnem != logic->_enemies.cend()) {
       if ((*iterEnem)->getTexture() != nullptr) {
         renderObject2d(*(*iterEnem));
       } else {
