@@ -44,5 +44,10 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "functional": "cpp"
-    }
+    },
+    "cSpell.words": [
+        "objecxt",
+        "sporn",
+        "Velo"
+    ]
 }
