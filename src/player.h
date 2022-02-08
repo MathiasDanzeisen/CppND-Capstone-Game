@@ -4,9 +4,11 @@
 #include "object2d.h"
 
 // base class for 2d objects
-class Player : Object2d {
-    public:
-        
-    private:
+class Player : public Object2d {
+    // public:
+    //     Player::Player();
+    //     void init() override;
+    // private:
+
 };         
 #endif

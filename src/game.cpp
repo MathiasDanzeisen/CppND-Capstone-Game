@@ -86,7 +86,7 @@ void Game::Update(bool &running) {
   int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
 
   // make sure player is in the field
-  if(_logic->_player1->IsObjOnScreen( xPosNew, yPosNew)){
+  if(_logic->_player1->isObjOnScreen( xPosNew, yPosNew)){
     // move player
     _logic->_player1->moveToPos(xPosNew, yPosNew);
   } else {
@@ -113,7 +113,7 @@ void Game::Update(bool &running) {
       int yPosNew = (*iterBullet)->getPosY() + (*iterBullet)->getVeloY();
 
       // check: bullet is in the field
-      if ((*iterBullet)->IsObjOnScreen(xPosNew, yPosNew)) {
+      if ((*iterBullet)->isObjOnScreen(xPosNew, yPosNew)) {
         // bullet is in the field: Move bullet
         (*iterBullet)->moveToPos(xPosNew, yPosNew);
         iterBullet++;
@@ -141,7 +141,7 @@ void Game::Update(bool &running) {
 
       bool deleteEnemy = false;
       // check: enemy is in the field
-      if ((*iterEnem)->IsObjOnScreen(xPosNew, yPosNew)) {
+      if ((*iterEnem)->isObjOnScreen(xPosNew, yPosNew)) {
         // Enemy is in the field: Move enemy
         (*iterEnem)->moveToPos(xPosNew, yPosNew);
 

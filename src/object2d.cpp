@@ -8,6 +8,9 @@
 // constructor
 Object2d::Object2d() : _texture(nullptr) {}
 
+// TODO: remove
+//Object2d::Object2d(std::string image_path) : _image_path{image_path}, _texture(nullptr){}
+
 // destructor
 Object2d::~Object2d() {
   if (_texture != nullptr) {
@@ -40,7 +43,11 @@ Object2d &Object2d::operator=(Object2d &&other) {
   return *this;
 }
 
-bool Object2d::checkCollision(Object2d &otherObj) const {
+void Object2d::init(){
+  
+}
+
+bool Object2d::checkCollision(IObject2d &otherObj) const {
   // check if x and y axis overlap
   return std::max(this->getPosX(), otherObj.getPosX()) <
              std::min(this->getPosX() + this->getObjWPoints(),
@@ -50,16 +57,16 @@ bool Object2d::checkCollision(Object2d &otherObj) const {
                       otherObj.getPosY() + otherObj.getObjHPoints());
 }
 
-bool Object2d::IsObjOnScreen (void) const{
+bool Object2d::isObjOnScreen (void) const{
 
 auto xPoints = this->getPosX();
 auto yPoints = this->getPosY();
 
-return this->IsObjOnScreen (xPoints, yPoints);
+return this->isObjOnScreen (xPoints, yPoints);
 
 }
 
-bool Object2d::IsObjOnScreen (int xPoints, int yPoints) const{
+bool Object2d::isObjOnScreen (int xPoints, int yPoints) const{
 
   return (xPoints >= config::VRES_POINTS_MIN &&
     (xPoints + this->getObjWPoints()) <= config::VRES_POINTS_MAX &&

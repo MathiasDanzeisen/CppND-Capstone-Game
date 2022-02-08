@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "object2d.h"
+#include "player.h"
 #include <list>
 #include <string>
 #include <memory>
@@ -19,7 +20,7 @@ class Logic {
         bool keyInAction1{false}; 
 
         //TODO: make private
-        std::unique_ptr<Object2d> _player1;
+        std::unique_ptr<Player> _player1;
         std::list<std::unique_ptr<Object2d>> _bullets;
         std::list<std::unique_ptr<Object2d>> _enemies;
 
