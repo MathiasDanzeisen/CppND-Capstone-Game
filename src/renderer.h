@@ -37,12 +37,7 @@ private:
       {objectBullet, config::BULLET_GRAPIC_PATH},
       {objectEnemy, config::ENEMY_GRAPIC_PATH},
   };
-  std::map<Object2dType, int> _mapObj2Size{
-      {noObject, 0},
-      {objectPlayer, config::PLAYER1_GRAPIC_SIZE},
-      {objectBullet, config::BULLET_GRAPIC_SIZE},
-      {objectEnemy, config::ENEMY_GRAPIC_SIZE},
-  };
+
 
   // set size
   void initObject2d(Object2d &obj, const int wPix, const int hPix);

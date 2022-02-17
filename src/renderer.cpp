@@ -142,8 +142,9 @@ SDL_Texture* Renderer::getObjTexture(const Object2d &obj) const{
 }
 
 int Renderer::getObjSize(const Object2d &obj) const{
-  Object2dType type = obj.getType();
-  return _mapObj2Size.at(type);
+  // all objects are have equal height and width so far
+  
+  return Pos2Pix(obj.getObjHPoints());
 }
 
 void Renderer::renderObject2d(const Object2d &obj2d) {
