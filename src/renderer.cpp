@@ -31,9 +31,27 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  // Load textures
+  for (const auto& [key, textureFile] : _mapObj2TextFilename) {
+    //TODO: remove debug
+    //std::cout << '[' << key << "] = " << texture << "; ";
+    initTexture(textureFile);
+  }
+
+  //_sdlTextures 
+
 }
 
 Renderer::~Renderer() {
+  
+  for (const auto& [key, texture] : _sdlTextures) {
+    //TODO: remove debug
+    //std::cout << '[' << key << "] = " << texture << "; ";
+    if (texture != nullptr){
+      SDL_DestroyTexture(texture);
+    }
+  }
   SDL_DestroyWindow(_sdlWindow);
   SDL_Quit();
 }
@@ -48,7 +66,7 @@ void Renderer::Clear() {
 void Renderer::Init(Logic *logic) {
 
   // player
-  initObject2d(*(logic->_player1), config::PLAYER1_GRAPIC_PATH, config::PLAYER1_GRAPIC_SIZE, config::PLAYER1_GRAPIC_SIZE);
+  // initObject2d(*(logic->_player1), config::PLAYER1_GRAPIC_SIZE, config::PLAYER1_GRAPIC_SIZE);
 
 }
 
@@ -76,11 +94,11 @@ void Renderer::Render(Logic *logic) {
   if (!logic->_bullets.empty()){
     auto iterBullet = logic->_bullets.cbegin();
     while (iterBullet != logic->_bullets.cend()) {
-      if ((*iterBullet)->getTexture() != nullptr) {
+      // if (getObjTexture((*iterBullet)) != nullptr) {
         renderObject2d(*(*iterBullet));
-      } else {
-        initObject2d(*(*iterBullet), config::BULLET_GRAPIC_PATH, config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
-      }
+      // } else {
+      //   initObject2d(*(*iterBullet), config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
+      // }
       iterBullet++;
     }
   }
@@ -89,11 +107,11 @@ void Renderer::Render(Logic *logic) {
   if (!logic->_enemies.empty()){
     auto iterEnem = logic->_enemies.cbegin();
     while (iterEnem != logic->_enemies.cend()) {
-      if ((*iterEnem)->getTexture() != nullptr) {
+      // if (getObjTexture((*iterEnem)) != nullptr) {
         renderObject2d(*(*iterEnem));
-      } else {
-        initObject2d(*(*iterEnem), config::ENEMY_GRAPIC_PATH, config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
-      }
+      // } else {
+      //   initObject2d(*(*iterEnem),  config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
+      // }
       iterEnem++;
     }
   }
@@ -108,22 +126,24 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   SDL_SetWindowTitle(_sdlWindow, title.c_str());
 }
 
-void Renderer::initObject2d(Object2d &obj, const std::string filename,
-                            const int wPix, const int hPix) {
+void Renderer::initTexture(const std::string filename) {
 
-  
-  SDL_Texture *texture = IMG_LoadTexture(_sdlRenderer, filename.c_str());
+  _sdlTextures.emplace(filename,IMG_LoadTexture(_sdlRenderer, filename.c_str()));
   // do error handling
-  if (texture == nullptr) {
+  if (_sdlTextures[filename] == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
-  }
-  obj.setTexture(texture);
+  } 
+}
 
-  // TODO: remove: Query size (width and hight from texture)
-  // SDL_QueryTexture(logic->_player1->getTexture(), NULL, NULL, &dest.w,
+SDL_Texture* Renderer::getObjTexture(const Object2d &obj) const{
+  Object2dType type = obj.getType();
+  auto file = _mapObj2TextFilename.at(type);
+  return _sdlTextures.at(file);
+}
 
-  obj.setObjSizePix(wPix, hPix);
-  obj.setObjSizePoints(Pix2Pos(wPix),Pix2Pos(hPix));
+int Renderer::getObjSize(const Object2d &obj) const{
+  Object2dType type = obj.getType();
+  return _mapObj2Size.at(type);
 }
 
 void Renderer::renderObject2d(const Object2d &obj2d) {
@@ -131,10 +151,11 @@ void Renderer::renderObject2d(const Object2d &obj2d) {
   int x = Pos2Pix(obj2d.getPosX());
   int y = Pos2Pix(obj2d.getPosY());
 
-  SDL_Rect dest = {x, y, obj2d.getObjWPix(), obj2d.getObjHPix()};
+  SDL_Rect dest = {x, y,  getObjSize(obj2d),  getObjSize(obj2d)};
+
 
   // Render texture with original size to dest.x & dest.y
-  SDL_RenderCopy(_sdlRenderer, obj2d.getTexture(), NULL, &dest);
+  SDL_RenderCopy(_sdlRenderer, getObjTexture(obj2d), NULL, &dest);
 }
 
 int Renderer::Pix2Pos( int pix) const{

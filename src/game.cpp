@@ -98,7 +98,7 @@ void Game::Update(bool &running) {
   if (_logic->keyInAction1) {
     // add new bullet which travels straight
     // *shoot upwards: negative y
-    auto bul = std::make_unique<Object2d>();
+    auto bul = std::make_unique<Bullet>();
     bul->setVelo(0, config::BULLET_SPEED_CONST);
     bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
     _logic->_bullets.push_back(std::move(bul));
@@ -196,7 +196,7 @@ void Game::AddEnemy() {
   // Create random
   int x_enem = _random_w(engine);
   int y_enem = _random_h(engine);
-  auto enem = std::make_unique<Object2d>();
+  auto enem = std::make_unique<Enemy>();
   enem->setVelo(0, _enemySpeed);
   enem->moveToPos(x_enem, y_enem);
   _logic->_enemies.push_back(std::move(enem));

@@ -5,12 +5,12 @@
 #include <string>
 #include <memory>
 
-enum Object2dType
+enum Object2dType : int
 {
     noObject,
     objectPlayer,
     objectBullet,
-    objectEnemy,
+    objectEnemy
 };
 
 // interface class for 2d objects

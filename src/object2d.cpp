@@ -6,17 +6,13 @@
 #include <iostream>
 
 // constructor
-Object2d::Object2d() : _texture(nullptr) {}
+Object2d::Object2d() {}
 
 // TODO: remove
 //Object2d::Object2d(std::string image_path) : _image_path{image_path}, _texture(nullptr){}
 
 // destructor
-Object2d::~Object2d() {
-  if (_texture != nullptr) {
-    SDL_DestroyTexture(_texture);
-  }
-}
+ Object2d::~Object2d() {}
 
 // move constructor
 Object2d::Object2d(Object2d &&other) {
@@ -24,10 +20,7 @@ Object2d::Object2d(Object2d &&other) {
   this->_posY = other._posY;
   this->_veloX = other._veloX;
   this->_veloY = other._veloY;
-
-  this->_texture = other.getTexture();
-
-  other.setTexture(nullptr);
+  this->_type = other._type;
 }
 
 // move assignment
@@ -36,10 +29,8 @@ Object2d &Object2d::operator=(Object2d &&other) {
   this->_posY = other._posY;
   this->_veloX = other._veloX;
   this->_veloY = other._veloY;
+  this->_type = other._type;
 
-  this->_texture = other.getTexture();
-
-  other.setTexture(nullptr);
   return *this;
 }
 

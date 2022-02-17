@@ -4,6 +4,9 @@
 #include "SDL.h"
 #include "object2d.h"
 #include "player.h"
+#include "bullet.h"
+#include "enemy.h"
+
 #include <list>
 #include <string>
 #include <memory>
@@ -21,8 +24,8 @@ class Logic {
 
         //TODO: make private
         std::unique_ptr<Player> _player1;
-        std::list<std::unique_ptr<Object2d>> _bullets;
-        std::list<std::unique_ptr<Object2d>> _enemies;
+        std::list<std::unique_ptr<Bullet>> _bullets;
+        std::list<std::unique_ptr<Enemy>> _enemies;
 
     private:
 };

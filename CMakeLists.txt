@@ -13,6 +13,8 @@ add_executable(Game
     src/logic.cpp 
     src/object2d.cpp
     src/player.cpp
+    src/bullet.cpp
+    src/enemy.cpp
 )
 
 
