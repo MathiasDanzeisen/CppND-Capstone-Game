@@ -43,7 +43,12 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "bit": "cpp",
+        "numeric": "cpp",
+        "ranges": "cpp",
+        "sstream": "cpp",
+        "map": "cpp"
     },
     "cSpell.words": [
         "objecxt",

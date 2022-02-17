@@ -1,6 +1,6 @@
 #include "object2d.h"
-#include "logic.h"
 #include "config.h"
+#include "logic.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -8,11 +8,8 @@
 // constructor
 Object2d::Object2d() {}
 
-// TODO: remove
-//Object2d::Object2d(std::string image_path) : _image_path{image_path}, _texture(nullptr){}
-
 // destructor
- Object2d::~Object2d() {}
+Object2d::~Object2d() {}
 
 // move constructor
 Object2d::Object2d(Object2d &&other) {
@@ -20,6 +17,8 @@ Object2d::Object2d(Object2d &&other) {
   this->_posY = other._posY;
   this->_veloX = other._veloX;
   this->_veloY = other._veloY;
+  this->_objWidPoints = other._objWidPoints;
+  this->_objHeiPoints = other._objHeiPoints;
   this->_type = other._type;
 }
 
@@ -29,14 +28,14 @@ Object2d &Object2d::operator=(Object2d &&other) {
   this->_posY = other._posY;
   this->_veloX = other._veloX;
   this->_veloY = other._veloY;
+  this->_objWidPoints = other._objWidPoints;
+  this->_objHeiPoints = other._objHeiPoints;
   this->_type = other._type;
 
   return *this;
 }
 
-void Object2d::init(){
-  
-}
+void Object2d::init() {}
 
 bool Object2d::checkCollision(IObject2d &otherObj) const {
   // check if x and y axis overlap
@@ -48,19 +47,18 @@ bool Object2d::checkCollision(IObject2d &otherObj) const {
                       otherObj.getPosY() + otherObj.getObjHPoints());
 }
 
-bool Object2d::isObjOnScreen (void) const{
+bool Object2d::isObjOnScreen(void) const {
 
-auto xPoints = this->getPosX();
-auto yPoints = this->getPosY();
+  auto xPoints = this->getPosX();
+  auto yPoints = this->getPosY();
 
-return this->isObjOnScreen (xPoints, yPoints);
-
+  return this->isObjOnScreen(xPoints, yPoints);
 }
 
-bool Object2d::isObjOnScreen (int xPoints, int yPoints) const{
+bool Object2d::isObjOnScreen(int xPoints, int yPoints) const {
 
   return (xPoints >= config::VRES_POINTS_MIN &&
-    (xPoints + this->getObjWPoints()) <= config::VRES_POINTS_MAX &&
-    yPoints >= config::VRES_POINTS_MIN &&
-    (yPoints + this->getObjHPoints()) <= config::VRES_POINTS_MAX);
+          (xPoints + this->getObjWPoints()) <= config::VRES_POINTS_MAX &&
+          yPoints >= config::VRES_POINTS_MIN &&
+          (yPoints + this->getObjHPoints()) <= config::VRES_POINTS_MAX);
 }

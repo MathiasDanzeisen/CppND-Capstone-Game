@@ -24,9 +24,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   // Move player to initial position
   _logic->_player1->moveToPos(std::ceil(config::VRES_POINTS_MAX * 0.5),
                               std::ceil(config::VRES_POINTS_MAX * 0.9));
-  renderer.Init(_logic.get());
 
-  // TODO: remove
 
   while (running) {
     frame_start = SDL_GetTicks();

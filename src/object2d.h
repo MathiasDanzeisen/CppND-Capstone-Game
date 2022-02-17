@@ -35,10 +35,6 @@ class Object2d : public IObject2d {
         void accelerate(int dVx, int dVy)override{_veloX = _veloX+dVx; _veloY=_veloY+dVy;};
 
         //object size
-        // void setObjSizePix(int w, int h){_objWidPix=w; _objHeiPix=h;};
-        // int getObjWPix() const{return _objWidPix;};
-        // int getObjHPix() const{return _objHeiPix;};
-        // void setObjSizePoints(int w, int h){_objWidPoints=w; _objHeiPoints=h;};
         int getObjWPoints() const{return _objWidPoints;};
         int getObjHPoints() const{return _objHeiPoints;};
 
@@ -57,8 +53,6 @@ class Object2d : public IObject2d {
         int _posY{0};   //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
         int _veloX{0};  //speed in points per frame
         int _veloY{0};  //
-        // int _objWidPix{0};   // object Width in pixel
-        // int _objHeiPix{0};
         int _objWidPoints{0};   // object Width in points
         int _objHeiPoints{0};
         Object2dType _type{noObject};

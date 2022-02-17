@@ -38,9 +38,6 @@ Renderer::Renderer(const std::size_t screen_width,
     //std::cout << '[' << key << "] = " << texture << "; ";
     initTexture(textureFile);
   }
-
-  //_sdlTextures 
-
 }
 
 Renderer::~Renderer() {
@@ -60,14 +57,6 @@ Renderer::~Renderer() {
 void Renderer::Clear() {
   SDL_SetRenderDrawColor(_sdlRenderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(_sdlRenderer);
-}
-
-// Init
-void Renderer::Init(Logic *logic) {
-
-  // player
-  // initObject2d(*(logic->_player1), config::PLAYER1_GRAPIC_SIZE, config::PLAYER1_GRAPIC_SIZE);
-
 }
 
 void Renderer::Render(Logic *logic) {

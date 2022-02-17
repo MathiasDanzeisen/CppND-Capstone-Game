@@ -13,8 +13,7 @@ public:
   ~Renderer();
 
   void Render(Logic *logic);
-  // init objects
-  void Init(Logic *logic);
+  
   // Clear screen
   void Clear();
   void UpdateWindowTitle(int score, int fps);
