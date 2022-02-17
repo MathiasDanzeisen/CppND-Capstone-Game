@@ -6,8 +6,10 @@
 // Constrctor
 //  Set sporn thresholds for enemies in random generator
 Game::Game()
-    : engine(dev()), _random_w(config::VRES_POINTS_MIN, config::VRES_POINTS_MAX),
-      _random_h(config::VRES_POINTS_MIN, std::ceil(config::VRES_POINTS_MAX * 0.3)) {
+    : engine(dev()),
+      _random_w(config::VRES_POINTS_MIN, config::VRES_POINTS_MAX),
+      _random_h(config::VRES_POINTS_MIN,
+                std::ceil(config::VRES_POINTS_MAX * 0.3)) {
   _logic = std::make_shared<Logic>();
 }
 
@@ -24,7 +26,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   // Move player to initial position
   _logic->_player1->moveToPos(std::ceil(config::VRES_POINTS_MAX * 0.5),
                               std::ceil(config::VRES_POINTS_MAX * 0.9));
-
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -67,13 +68,13 @@ void Game::Update(bool &running) {
   // Set speed of player
 
   if (_logic->keyInDown) {
-    _logic->_player1->accelerate(0,config::PLAYER_SPEED_INC);
+    _logic->_player1->accelerate(0, config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInUp) {
     _logic->_player1->accelerate(0, -config::PLAYER_SPEED_INC);
   }
   if (_logic->keyInLeft) {
-    _logic->_player1->accelerate( -config::PLAYER_SPEED_INC, 0);
+    _logic->_player1->accelerate(-config::PLAYER_SPEED_INC, 0);
   }
   if (_logic->keyInRight) {
     _logic->_player1->accelerate(config::PLAYER_SPEED_INC, 0);
@@ -84,7 +85,7 @@ void Game::Update(bool &running) {
   int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
 
   // make sure player is in the field
-  if(_logic->_player1->isObjOnScreen( xPosNew, yPosNew)){
+  if (_logic->_player1->isObjOnScreen(xPosNew, yPosNew)) {
     // move player
     _logic->_player1->moveToPos(xPosNew, yPosNew);
   } else {
@@ -122,13 +123,9 @@ void Game::Update(bool &running) {
     }
   }
 
-  // add new enemies
-  static int enemySpornCounter{0};
-  if (enemySpornCounter >= _enemySpornIntervall) {
-    AddEnemy();
-    enemySpornCounter = 0;
-  }
-  enemySpornCounter++;
+  // add new enemies according to current difficulty level
+  AddEnemy(GetLevel());
+
 
   // Iterate over all enemies: Update or delete
   if (!_logic->_enemies.empty()) {
@@ -178,26 +175,39 @@ void Game::Update(bool &running) {
     }
   }
   // Set Difficulty according to score
-  if ( GetScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE ){
-    // calc dificulty level
-    int level = (GetScore() - config::DIFFICULTY_LEVEL_SCORE_BASE)/config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
-
-    // Adjust enemy sporn rate according to difficulty 
-    _enemySpornIntervall = config::ENEMY_SPORN_INTERVALL_INIT + level*config::ENEMY_SPORN_INTERVALL_LEV_INC;
-    // Adjust enemy speed according to difficulty
-    _enemySpeed = config::ENEMY_SPEED_INIT + level*config::ENEMY_SPEED_LEV_INC;
-  }  
+  UpdateLevel();
 }
 
-void Game::AddEnemy() {
-  // enemies
-  // Create random
-  int x_enem = _random_w(engine);
-  int y_enem = _random_h(engine);
-  auto enem = std::make_unique<Enemy>();
-  enem->setVelo(0, _enemySpeed);
-  enem->moveToPos(x_enem, y_enem);
-  _logic->_enemies.push_back(std::move(enem));
+void Game::UpdateLevel() {
+  if (GetScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE) {
+    // calc dificulty level
+    _level = (GetScore() - config::DIFFICULTY_LEVEL_SCORE_BASE) /
+                config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
+  }
+}
+
+void Game::AddEnemy(int level) {
+
+  static int enemySpornCounter{0};
+
+  // Adjust enemy sporn rate according to difficulty
+  _enemySpornIntervall = config::ENEMY_SPORN_INTERVALL_INIT +
+                         level * config::ENEMY_SPORN_INTERVALL_LEV_INC;
+  // Adjust enemy speed according to difficulty
+  _enemySpeed = config::ENEMY_SPEED_INIT + level * config::ENEMY_SPEED_LEV_INC;
+
+  if (enemySpornCounter >= _enemySpornIntervall) {
+
+    // Sporn enemy at random position
+    int x_enem = _random_w(engine);
+    int y_enem = _random_h(engine);
+    auto enem = std::make_unique<Enemy>();
+    enem->setVelo(0, _enemySpeed);
+    enem->moveToPos(x_enem, y_enem);
+    _logic->_enemies.push_back(std::move(enem));
+    enemySpornCounter = 0;
+  }
+  enemySpornCounter++;
 }
 
 long int Game::GetScore() const { return _score; }

@@ -20,10 +20,19 @@ public:
 private:
 
   void Update(bool &running);
-  void AddEnemy();
+
+  // Add enemy at a random place according 
+  //  to difficulty level
+  void AddEnemy(int level);
+
+  // Get difficulty level
+  int GetLevel()const {return _level;};
+
+  // Calculate and update difficulty level
+  void UpdateLevel();
 
   long int _score{0};
-  
+  int _level{0};
 
   std::shared_ptr<Logic> _logic;
 
