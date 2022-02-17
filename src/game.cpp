@@ -65,8 +65,8 @@ void Game::Update(bool &running) {
 
   /////////////////////
   // player
-  // Set speed of player
 
+  // steer according to user input
   if (_logic->keyInDown) {
     _logic->_player1->accelerate(0, config::PLAYER_SPEED_INC);
   }
@@ -93,15 +93,24 @@ void Game::Update(bool &running) {
     _logic->_player1->setVelo(0, 0);
   }
 
-  // Create bullet
+  /////////////////////
+  // bullets
+
+  // Fire button was hit
   if (_logic->keyInAction1) {
-    // add new bullet which travels straight
-    // *shoot upwards: negative y
-    auto bul = std::make_unique<Bullet>();
-    bul->setVelo(0, config::BULLET_SPEED_CONST);
-    bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
-    _logic->_bullets.push_back(std::move(bul));
+    if (_logic->_player1->isReadyToFire()) {
+
+      // add new bullet which travels straight
+      // *shoot upwards: negative y
+      auto bul = std::make_unique<Bullet>();
+      bul->setVelo(0, config::BULLET_SPEED_CONST);
+      bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
+      _logic->_bullets.push_back(std::move(bul));
+
+      _logic->_player1->fire();
+    }
   }
+  _logic->_player1->update();
 
   // Iterate over all bullets: Update or delete
   if (!_logic->_bullets.empty()) {
@@ -123,9 +132,11 @@ void Game::Update(bool &running) {
     }
   }
 
+  /////////////////////
+  // enemies
+
   // add new enemies according to current difficulty level
   AddEnemy(GetLevel());
-
 
   // Iterate over all enemies: Update or delete
   if (!_logic->_enemies.empty()) {
@@ -182,7 +193,7 @@ void Game::UpdateLevel() {
   if (GetScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE) {
     // calc dificulty level
     _level = (GetScore() - config::DIFFICULTY_LEVEL_SCORE_BASE) /
-                config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
+             config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
   }
 }
 

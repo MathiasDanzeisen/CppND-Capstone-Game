@@ -10,6 +10,9 @@ namespace config {
     // game config
     static constexpr int  PLAYER_SPEED_INC{1};  // speed increment of player: points per frame
     static constexpr int  BULLET_SPEED_CONST{-10};  // const speed of bullet: points per frame
+    static constexpr int  PLAYER_RELOAD_INTERVALL{5};  // frame intervall (minus one frame)between firing two bullets in burst mode
+
+
     // _SPEED_ENEMY: constant speed of the enemy
     static constexpr int  ENEMY_SPEED_INIT{5};  // init value
     static constexpr int  ENEMY_SPEED_LEV_INC{1};  // increment for each difficulty level
