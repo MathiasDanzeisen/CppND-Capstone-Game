@@ -32,7 +32,7 @@ private:
   const std::size_t _screenHeight;
 
   std::map<Object2dType, std::string> _mapObj2TextFilename{
-      {noObject, nullptr},
+      {noObject, ""},
       {objectPlayer, config::PLAYER1_GRAPIC_PATH},
       {objectBullet, config::BULLET_GRAPIC_PATH},
       {objectEnemy, config::ENEMY_GRAPIC_PATH},
@@ -48,7 +48,7 @@ private:
   // Get texture for a object
   SDL_Texture *getObjTexture(const Object2d &obj) const;
   // Get size of on object in pixel
-  int getObjSize(const Object2d &obj) const;
+  int getObjSizePix(const Object2d &obj) const;
 };
 
 #endif

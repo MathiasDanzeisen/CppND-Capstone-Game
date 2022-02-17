@@ -127,12 +127,16 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
 }
 
 void Renderer::initTexture(const std::string filename) {
+  // 
+  if (!filename.empty()){
+    _sdlTextures.emplace(filename,IMG_LoadTexture(_sdlRenderer, filename.c_str()));
+    
+    // do error handling
+    if (_sdlTextures[filename] == nullptr) {
+      std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
+    } 
+  }
 
-  _sdlTextures.emplace(filename,IMG_LoadTexture(_sdlRenderer, filename.c_str()));
-  // do error handling
-  if (_sdlTextures[filename] == nullptr) {
-    std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
-  } 
 }
 
 SDL_Texture* Renderer::getObjTexture(const Object2d &obj) const{
@@ -141,9 +145,8 @@ SDL_Texture* Renderer::getObjTexture(const Object2d &obj) const{
   return _sdlTextures.at(file);
 }
 
-int Renderer::getObjSize(const Object2d &obj) const{
+int Renderer::getObjSizePix(const Object2d &obj) const{
   // all objects are have equal height and width so far
-  
   return Pos2Pix(obj.getObjHPoints());
 }
 
@@ -152,7 +155,7 @@ void Renderer::renderObject2d(const Object2d &obj2d) {
   int x = Pos2Pix(obj2d.getPosX());
   int y = Pos2Pix(obj2d.getPosY());
 
-  SDL_Rect dest = {x, y,  getObjSize(obj2d),  getObjSize(obj2d)};
+  SDL_Rect dest = {x, y,  getObjSizePix(obj2d),  getObjSizePix(obj2d)};
 
 
   // Render texture with original size to dest.x & dest.y

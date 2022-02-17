@@ -23,13 +23,13 @@ namespace config {
     static constexpr int DIFFICULTY_LEVEL_SCORE_INTERVALL{10}; // score points needed to set the next level
 
     ///////////
-    // fx config
+    // fx config (sizes in Points)
     static constexpr char PLAYER1_GRAPIC_PATH[]{"data/player_skunk1.png"};  //
-    static constexpr int PLAYER1_GRAPIC_SIZE{40}; 
+    static constexpr int PLAYER1_GRAPIC_SIZE{110}; 
     static constexpr char BULLET_GRAPIC_PATH[]{"data/bullet_green_dn_1.png"};
-    static constexpr int BULLET_GRAPIC_SIZE{25}; 
+    static constexpr int BULLET_GRAPIC_SIZE{70}; 
     static constexpr char ENEMY_GRAPIC_PATH[]{"data/player_cat_red.png"};
-    static constexpr int ENEMY_GRAPIC_SIZE{25}; 
+    static constexpr int ENEMY_GRAPIC_SIZE{70}; 
     static constexpr char BACKGROUND_GRAPIC_PATH[]{"data/background_alley-gceda_1920.jpg"};  
     
 }
