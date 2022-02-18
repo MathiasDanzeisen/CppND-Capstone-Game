@@ -3,8 +3,8 @@
 
 Player::Player() {
   this->_type = objectPlayer;
-  _objWidPoints = config::PLAYER1_GRAPIC_SIZE;
-  _objHeiPoints = config::PLAYER1_GRAPIC_SIZE;
+  _objSizePoints.sizeW = config::PLAYER1_GRAPIC_SIZE;
+  _objSizePoints.sizeH = config::PLAYER1_GRAPIC_SIZE;
 }
 
 
@@ -16,4 +16,5 @@ void Player::update() {
   if (this->_reloadCounter > 0) {
     this->_reloadCounter--;
   }
+  Object2d::update();
 }

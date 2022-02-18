@@ -12,24 +12,30 @@
 class Game {
 public:
   Game();
-  void Run(Controller const &controller, Renderer &renderer,
+  void run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
-  long int GetScore() const;
+  long int getScore() const;
 
 
 private:
 
-  void Update(bool &running);
+  void update(bool &running);
 
   // Add enemy at a random place according 
   //  to difficulty level
-  void AddEnemy(int level);
+  void addEnemy(int level);
 
   // Get difficulty level
-  int GetLevel()const {return _level;};
+  int getLevel()const {return _level;};
 
   // Calculate and update difficulty level
-  void UpdateLevel();
+  void updateLevel();
+
+  // Update the game score when Player hit the enemy
+  void updateScoreEnemyHit();
+  
+  // Update the game score when the enemy passed the player
+  void updateScoreEnemyPassed();
 
   long int _score{0};
   int _level{0};

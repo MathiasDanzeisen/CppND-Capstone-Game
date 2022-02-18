@@ -13,7 +13,7 @@ Game::Game()
   _logic = std::make_shared<Logic>();
 }
 
-void Game::Run(Controller const &controller, Renderer &renderer,
+void Game::run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
@@ -24,8 +24,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
   // Init
   // Move player to initial position
-  _logic->_player1->moveToPos(std::ceil(config::VRES_POINTS_MAX * 0.5),
-                              std::ceil(config::VRES_POINTS_MAX * 0.9));
+  _logic->_player1->setCurrPos(config::PLAYER_INIT_POS);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -35,7 +34,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, *_logic);
-    Update(running);
+    update(running);
     renderer.Render(_logic.get());
 
     frame_end = SDL_GetTicks();
@@ -61,7 +60,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::Update(bool &running) {
+void Game::update(bool &running) {
 
   /////////////////////
   // player
@@ -80,18 +79,13 @@ void Game::Update(bool &running) {
     _logic->_player1->accelerate(config::PLAYER_SPEED_INC, 0);
   }
 
-  // update player
-  int xPosNew = _logic->_player1->getPosX() + _logic->_player1->getVeloX();
-  int yPosNew = _logic->_player1->getPosY() + _logic->_player1->getVeloY();
-
-  // make sure player is in the field
-  if (_logic->_player1->isObjOnScreen(xPosNew, yPosNew)) {
-    // move player
-    _logic->_player1->moveToPos(xPosNew, yPosNew);
-  } else {
+  // make sure player is in the field after moving
+  if (!_logic->_player1->isObjOnScreen(_logic->_player1->getNextPos())) {
     // limit player movement
     _logic->_player1->setVelo(0, 0);
   }
+  // move and update reload
+  _logic->_player1->update();
 
   /////////////////////
   // bullets
@@ -104,26 +98,24 @@ void Game::Update(bool &running) {
       // *shoot upwards: negative y
       auto bul = std::make_unique<Bullet>();
       bul->setVelo(0, config::BULLET_SPEED_CONST);
-      bul->moveToPos(_logic->_player1->getPosX(), _logic->_player1->getPosY());
+      bul->setCurrPos(_logic->_player1->getCurrPos());
       _logic->_bullets.push_back(std::move(bul));
 
       _logic->_player1->fire();
     }
   }
-  _logic->_player1->update();
 
   // Iterate over all bullets: Update or delete
   if (!_logic->_bullets.empty()) {
     auto iterBullet = _logic->_bullets.begin();
 
     while (iterBullet != _logic->_bullets.end()) {
-      int xPosNew = (*iterBullet)->getPosX() + (*iterBullet)->getVeloX();
-      int yPosNew = (*iterBullet)->getPosY() + (*iterBullet)->getVeloY();
+      auto PosNew = (*iterBullet)->getNextPos();
 
       // check: bullet is in the field
-      if ((*iterBullet)->isObjOnScreen(xPosNew, yPosNew)) {
+      if ((*iterBullet)->isObjOnScreen((*iterBullet)->getNextPos())) {
         // bullet is in the field: Move bullet
-        (*iterBullet)->moveToPos(xPosNew, yPosNew);
+        (*iterBullet)->setCurrPos(PosNew);
         iterBullet++;
       } else {
         // bullet out of the field: delete
@@ -136,20 +128,19 @@ void Game::Update(bool &running) {
   // enemies
 
   // add new enemies according to current difficulty level
-  AddEnemy(GetLevel());
+  addEnemy(getLevel());
 
   // Iterate over all enemies: Update or delete
   if (!_logic->_enemies.empty()) {
     auto iterEnem = _logic->_enemies.begin();
     while (iterEnem != _logic->_enemies.end()) {
-      int xPosNew = (*iterEnem)->getPosX() + (*iterEnem)->getVeloX();
-      int yPosNew = (*iterEnem)->getPosY() + (*iterEnem)->getVeloY();
+      auto PosNew = (*iterEnem)->getNextPos();
 
       bool deleteEnemy = false;
       // check: enemy is in the field
-      if ((*iterEnem)->isObjOnScreen(xPosNew, yPosNew)) {
+      if ((*iterEnem)->isObjOnScreen(PosNew)) {
         // Enemy is in the field: Move enemy
-        (*iterEnem)->moveToPos(xPosNew, yPosNew);
+        (*iterEnem)->setCurrPos(PosNew);
 
         // check for collosion with player
         if (_logic->_player1->checkCollision(*(*iterEnem))) {
@@ -165,17 +156,16 @@ void Game::Update(bool &running) {
           //  delete enemy and increase score
           if ((*iterEnem)->checkCollision(*(*iterBullet))) {
             deleteEnemy = true;
-            _score = _score + 1;
+            this->updateScoreEnemyHit();
             break;
           }
           iterBullet++;
         }
       } else {
         // Enemy not in the field anymore:
-        //  delete enemy + reduce score
+        //  delete enemy + update score
         deleteEnemy = true;
-        if (_score > 0)
-          _score = _score - 1;
+        this->updateScoreEnemyPassed();
       }
 
       if (!deleteEnemy) {
@@ -186,18 +176,18 @@ void Game::Update(bool &running) {
     }
   }
   // Set Difficulty according to score
-  UpdateLevel();
+  updateLevel();
 }
 
-void Game::UpdateLevel() {
-  if (GetScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE) {
+void Game::updateLevel() {
+  if (getScore() >= config::DIFFICULTY_LEVEL_SCORE_BASE) {
     // calc dificulty level
-    _level = (GetScore() - config::DIFFICULTY_LEVEL_SCORE_BASE) /
+    _level = (getScore() - config::DIFFICULTY_LEVEL_SCORE_BASE) /
              config::DIFFICULTY_LEVEL_SCORE_INTERVALL;
   }
 }
 
-void Game::AddEnemy(int level) {
+void Game::addEnemy(int level) {
 
   static int enemySpornCounter{0};
 
@@ -214,11 +204,18 @@ void Game::AddEnemy(int level) {
     int y_enem = _random_h(engine);
     auto enem = std::make_unique<Enemy>();
     enem->setVelo(0, _enemySpeed);
-    enem->moveToPos(x_enem, y_enem);
+    enem->setCurrPos(objPosition_t{x_enem, y_enem});
     _logic->_enemies.push_back(std::move(enem));
     enemySpornCounter = 0;
   }
   enemySpornCounter++;
 }
 
-long int Game::GetScore() const { return _score; }
+long int Game::getScore() const { return _score; }
+
+void Game::updateScoreEnemyHit() { _score = _score + 1; }
+
+void Game::updateScoreEnemyPassed() {
+  if (_score > 0)
+    _score = _score - 1;
+}

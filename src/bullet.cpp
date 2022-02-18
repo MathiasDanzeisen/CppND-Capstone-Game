@@ -4,6 +4,6 @@
 
 Bullet::Bullet()  {
     this->_type = objectBullet;
-    _objWidPoints = config::BULLET_GRAPIC_SIZE;
-    _objHeiPoints = config::BULLET_GRAPIC_SIZE;
+    _objSizePoints.sizeW = config::BULLET_GRAPIC_SIZE;
+    _objSizePoints.sizeH = config::BULLET_GRAPIC_SIZE;
 }

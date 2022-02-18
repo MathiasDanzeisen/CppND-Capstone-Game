@@ -1,6 +1,6 @@
-#include "config.h"
 #include "renderer.h"
 #include "SDL_image.h"
+#include "config.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -33,19 +33,14 @@ Renderer::Renderer(const std::size_t screen_width,
   }
 
   // Load textures
-  for (const auto& [key, textureFile] : _mapObj2TextFilename) {
-    //TODO: remove debug
-    //std::cout << '[' << key << "] = " << texture << "; ";
+  for (const auto &[key, textureFile] : _mapObj2TextFilename) {
     initTexture(textureFile);
   }
 }
 
 Renderer::~Renderer() {
-  
-  for (const auto& [key, texture] : _sdlTextures) {
-    //TODO: remove debug
-    //std::cout << '[' << key << "] = " << texture << "; ";
-    if (texture != nullptr){
+  for (const auto &[key, texture] : _sdlTextures) {
+    if (texture != nullptr) {
       SDL_DestroyTexture(texture);
     }
   }
@@ -62,45 +57,37 @@ void Renderer::Clear() {
 void Renderer::Render(Logic *logic) {
 
   // Render background
-    static SDL_Rect dest;
-		dest.x = 0;
-		dest.y = 0;
-		dest.w = _screenWidth;
-		dest.h = _screenHeight;
+  static SDL_Rect dest;
+  dest.x = 0;
+  dest.y = 0;
+  dest.w = _screenWidth;
+  dest.h = _screenHeight;
 
-  static SDL_Texture *textureBackgrd = IMG_LoadTexture(_sdlRenderer, config::BACKGROUND_GRAPIC_PATH);
+  static SDL_Texture *textureBackgrd =
+      IMG_LoadTexture(_sdlRenderer, config::BACKGROUND_GRAPIC_PATH);
   // #TODO: do error handling
   if (textureBackgrd == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
   }
   SDL_RenderCopy(_sdlRenderer, textureBackgrd, NULL, &dest);
 
-
   // put player on screen
   renderObject2d(*(logic->_player1));
 
   // render all bullets
-  if (!logic->_bullets.empty()){
+  if (!logic->_bullets.empty()) {
     auto iterBullet = logic->_bullets.cbegin();
     while (iterBullet != logic->_bullets.cend()) {
-      // if (getObjTexture((*iterBullet)) != nullptr) {
-        renderObject2d(*(*iterBullet));
-      // } else {
-      //   initObject2d(*(*iterBullet), config::BULLET_GRAPIC_SIZE, config::BULLET_GRAPIC_SIZE);
-      // }
+      renderObject2d(*(*iterBullet));
       iterBullet++;
     }
   }
 
   // render all enemies
-  if (!logic->_enemies.empty()){
+  if (!logic->_enemies.empty()) {
     auto iterEnem = logic->_enemies.cbegin();
     while (iterEnem != logic->_enemies.cend()) {
-      // if (getObjTexture((*iterEnem)) != nullptr) {
-        renderObject2d(*(*iterEnem));
-      // } else {
-      //   initObject2d(*(*iterEnem),  config::ENEMY_GRAPIC_SIZE, config::ENEMY_GRAPIC_SIZE);
-      // }
+      renderObject2d(*(*iterEnem));
       iterEnem++;
     }
   }
@@ -116,44 +103,61 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
 }
 
 void Renderer::initTexture(const std::string filename) {
-  // 
-  if (!filename.empty()){
-    _sdlTextures.emplace(filename,IMG_LoadTexture(_sdlRenderer, filename.c_str()));
-    
+  //
+  if (!filename.empty()) {
+    _sdlTextures.emplace(filename,
+                         IMG_LoadTexture(_sdlRenderer, filename.c_str()));
+
     // do error handling
     if (_sdlTextures[filename] == nullptr) {
-      std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
-    } 
+      std::cerr << "IMG_LoadTexture failed: " << SDL_GetError();
+    }
+  }else{
+    std::cerr << "File not found:" << filename << ".\n";
   }
-
 }
 
-SDL_Texture* Renderer::getObjTexture(const Object2d &obj) const{
-  Object2dType type = obj.getType();
-  auto file = _mapObj2TextFilename.at(type);
-  return _sdlTextures.at(file);
+SDL_Texture *Renderer::getObjTexture(const Object2d &obj) const {
+  object2dType_t type = obj.getType();
+  const std::string file(_mapObj2TextFilename.at(type));
+  return this->getObjTexture(file);
 }
 
-int Renderer::getObjSizePix(const Object2d &obj) const{
-  // all objects are have equal height and width so far
-  return Pos2Pix(obj.getObjHPoints());
+SDL_Texture *Renderer::getObjTexture(const std::string filename) const {
+  return this->_sdlTextures.at(filename);
+}
+
+sizePix_t Renderer::getObjSizePix(const Object2d &obj) const {
+
+  auto sizePoints = obj.getObjSizePoints();
+  auto sizePix = Pos2Pix( objPosition_t {sizePoints.sizeW,sizePoints.sizeH});
+
+  return sizePix_t{sizePix.pPixX, sizePix.pPixY};
 }
 
 void Renderer::renderObject2d(const Object2d &obj2d) {
   // rendering
-  int x = Pos2Pix(obj2d.getPosX());
-  int y = Pos2Pix(obj2d.getPosY());
-
-  SDL_Rect dest = {x, y,  getObjSizePix(obj2d),  getObjSizePix(obj2d)};
-
+  auto posPix = Pos2Pix(obj2d.getCurrPos());
+  auto sizePix = getObjSizePix(obj2d);
+  SDL_Rect dest = {posPix.pPixX, posPix.pPixY, sizePix.sPixW, sizePix.sPixH};
 
   // Render texture with original size to dest.x & dest.y
   SDL_RenderCopy(_sdlRenderer, getObjTexture(obj2d), NULL, &dest);
 }
 
-int Renderer::Pix2Pos( int pix) const{
-  return std::div(pix * config::VRES_POINTS_MAX, this->_screenWidth).quot;
+objPosition_t Renderer::Pix2Pos(positionPix_t pixPos) const {
+  objPosition_t ret{0, 0};
+  ret.posX =
+      std::div(pixPos.pPixX * config::VRES_POINTS_MAX, this->_screenWidth).quot;
+  ret.posX =
+      std::div(pixPos.pPixY * config::VRES_POINTS_MAX, this->_screenHeight).quot;
+  return ret;
 }
-int Renderer::Pos2Pix( int pos) const{
-  return std::div(pos * this->_screenHeight, config::VRES_POINTS_MAX).quot;
+positionPix_t Renderer::Pos2Pix(objPosition_t pos) const {
+  positionPix_t ret{0, 0};
+  ret.pPixX =
+      std::div(pos.posX * this->_screenWidth, config::VRES_POINTS_MAX).quot;
+  ret.pPixY =
+      std::div(pos.posY * this->_screenHeight, config::VRES_POINTS_MAX).quot;
+  return ret;
 }

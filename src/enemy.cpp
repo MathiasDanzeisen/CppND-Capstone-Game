@@ -4,6 +4,6 @@
 
 Enemy::Enemy()  {
     this->_type = objectEnemy;
-    _objWidPoints = config::ENEMY_GRAPIC_SIZE;
-    _objHeiPoints = config::ENEMY_GRAPIC_SIZE;
+    _objSizePoints.sizeW = config::ENEMY_GRAPIC_SIZE;
+    _objSizePoints.sizeH = config::ENEMY_GRAPIC_SIZE;
 }

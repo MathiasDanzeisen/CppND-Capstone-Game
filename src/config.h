@@ -1,6 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "iobject2d.h"
+
+#include <cmath>
+
 namespace config {
     //virtual resolution
     static constexpr int VRES_POINTS_MIN{0};
@@ -11,7 +15,9 @@ namespace config {
     static constexpr int  PLAYER_SPEED_INC{1};  // speed increment of player: points per frame
     static constexpr int  BULLET_SPEED_CONST{-10};  // const speed of bullet: points per frame
     static constexpr int  PLAYER_RELOAD_INTERVALL{5};  // frame intervall (minus one frame)between firing two bullets in burst mode
-
+    static constexpr objPosition_t  PLAYER_INIT_POS{std::lround(config::VRES_POINTS_MAX * 0.5),std::lround(config::VRES_POINTS_MAX * 0.9)};  // frame intervall (minus one frame)between firing two bullets in burst mode
+    
+                              
 
     // _SPEED_ENEMY: constant speed of the enemy
     static constexpr int  ENEMY_SPEED_INIT{5};  // init value

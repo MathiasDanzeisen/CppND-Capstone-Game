@@ -23,9 +23,11 @@ class Object2d : public IObject2d {
         virtual void init();
 
         // position in points (not in pixels)
-        void moveToPos(int x, int y)final{ _posX=x;_posY=y;};
-        int getPosX() const final{return _posX;}; 
-        int getPosY() const final{return _posY;}; 
+        void setCurrPos(objPosition_t pos) final {_pos=pos;};
+        int getCurrPosX() const final{return _pos.posX;}; 
+        int getCurrPosY() const final{return _pos.posY;};
+        objPosition_t getCurrPos() const final{return _pos;};
+        objPosition_t getNextPos() const final;
 
         // object velocity (points per frame)
         void setVelo(int vx, int vy) final{_veloX = vx; _veloY=vy;};
@@ -34,28 +36,31 @@ class Object2d : public IObject2d {
         // object's increment or decrement of velocity (points per frame)
         void accelerate(int dVx, int dVy)override{_veloX = _veloX+dVx; _veloY=_veloY+dVy;};
 
-        //object size
-        int getObjWPoints() const{return _objWidPoints;};
-        int getObjHPoints() const{return _objHeiPoints;};
+        // Update object, e.g move to position according to current velocity
+        virtual void update();
 
-        // 
+        //object size
+        objSize_t getObjSizePoints() const{return _objSizePoints;};
+        int getObjWPoints() const{return _objSizePoints.sizeW;};
+        int getObjHPoints() const{return _objSizePoints.sizeH;};
+
+        // Check if this object collides with otherObj
         bool checkCollision(IObject2d & otherObj) const override;
 
         // Check if object at the current position is completely on the screen
         bool isObjOnScreen (void) const;
         // Check if object at the new position would be completely on the screen without moving it
-        bool isObjOnScreen (int xPoints, int yPoints) const;
+        bool isObjOnScreen (objPosition_t pos) const;
 
-        Object2dType getType() const final {return _type;};
+        // Get the type of this object
+        object2dType_t getType() const final {return _type;};
 
     protected:
-        int _posX{0};   //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
-        int _posY{0};   //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
+        objPosition_t _pos{0,0}; //postion in VRES_POINTS_MIN..config::VRES_POINTS_MAX points of screen
         int _veloX{0};  //speed in points per frame
         int _veloY{0};  //
-        int _objWidPoints{0};   // object Width in points
-        int _objHeiPoints{0};
-        Object2dType _type{noObject};
+        objSize_t _objSizePoints{0,0}; // object Width in points
+        object2dType_t _type{noObject};
 };
 
 #endif
