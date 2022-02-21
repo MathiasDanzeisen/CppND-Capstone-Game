@@ -4,7 +4,7 @@
 #include "object2d.h"
 
 class Bullet : public Object2d {
-    public:
-        Bullet();
-};         
+public:
+  Bullet();
+};
 #endif

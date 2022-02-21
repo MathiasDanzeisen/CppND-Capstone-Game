@@ -8,7 +8,6 @@
 #include "iobject2d.h"
 #include "logic.h"
 
-
 // position in pixel
 struct positionPix_t {
   int pPixX;
@@ -28,7 +27,7 @@ public:
 
   // Render all objects on the screen
   void Render(Logic *logic);
-  
+
   // Clear screen
   void Clear();
   // Update the text in  window title

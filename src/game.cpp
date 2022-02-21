@@ -145,7 +145,6 @@ void Game::update(bool &running) {
         // check for collosion with player
         if (_logic->_player1->checkCollision(*(*iterEnem))) {
           std::cout << "Game over!" << std::endl;
-          // #TODO: change this to player attribute -> player is alive
           running = false;
         }
 

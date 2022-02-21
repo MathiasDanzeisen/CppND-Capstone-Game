@@ -65,7 +65,6 @@ void Renderer::Render(Logic *logic) {
 
   static SDL_Texture *textureBackgrd =
       IMG_LoadTexture(_sdlRenderer, config::BACKGROUND_GRAPIC_PATH);
-  // #TODO: do error handling
   if (textureBackgrd == nullptr) {
     std::cout << "IMG_LoadTexture failed: " << SDL_GetError();
   }
@@ -112,7 +111,7 @@ void Renderer::initTexture(const std::string filename) {
     if (_sdlTextures[filename] == nullptr) {
       std::cerr << "IMG_LoadTexture failed: " << SDL_GetError();
     }
-  }else{
+  } else {
     std::cerr << "File not found:" << filename << ".\n";
   }
 }
@@ -130,7 +129,7 @@ SDL_Texture *Renderer::getObjTexture(const std::string filename) const {
 sizePix_t Renderer::getObjSizePix(const Object2d &obj) const {
 
   auto sizePoints = obj.getObjSizePoints();
-  auto sizePix = Pos2Pix( objPosition_t {sizePoints.sizeW,sizePoints.sizeH});
+  auto sizePix = Pos2Pix(objPosition_t{sizePoints.sizeW, sizePoints.sizeH});
 
   return sizePix_t{sizePix.pPixX, sizePix.pPixY};
 }
@@ -150,7 +149,8 @@ objPosition_t Renderer::Pix2Pos(positionPix_t pixPos) const {
   ret.posX =
       std::div(pixPos.pPixX * config::VRES_POINTS_MAX, this->_screenWidth).quot;
   ret.posX =
-      std::div(pixPos.pPixY * config::VRES_POINTS_MAX, this->_screenHeight).quot;
+      std::div(pixPos.pPixY * config::VRES_POINTS_MAX, this->_screenHeight)
+          .quot;
   return ret;
 }
 positionPix_t Renderer::Pos2Pix(objPosition_t pos) const {

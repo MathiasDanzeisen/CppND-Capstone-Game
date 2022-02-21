@@ -4,7 +4,7 @@
 #include "object2d.h"
 
 class Enemy : public Object2d {
-    public:
-        Enemy();
-};         
+public:
+  Enemy();
+};
 #endif

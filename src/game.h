@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "config.h"
 #include "SDL.h"
+#include "config.h"
 #include "controller.h"
 #include "object2d.h"
 #include "renderer.h"
@@ -16,24 +16,23 @@ public:
            std::size_t target_frame_duration);
   long int getScore() const;
 
-
 private:
-
+  // Update game 
   void update(bool &running);
 
-  // Add enemy at a random place according 
+  // Add enemy at a random place according
   //  to difficulty level
   void addEnemy(int level);
 
   // Get difficulty level
-  int getLevel()const {return _level;};
+  int getLevel() const { return _level; };
 
   // Calculate and update difficulty level
   void updateLevel();
 
   // Update the game score when Player hit the enemy
   void updateScoreEnemyHit();
-  
+
   // Update the game score when the enemy passed the player
   void updateScoreEnemyPassed();
 
@@ -46,7 +45,7 @@ private:
   std::mt19937 engine;
   std::uniform_int_distribution<int> _random_w;
   std::uniform_int_distribution<int> _random_h;
-  
+
   //
   int _enemySpornIntervall{config::ENEMY_SPORN_INTERVALL_INIT};
   int _enemySpeed{config::ENEMY_SPEED_INIT};
