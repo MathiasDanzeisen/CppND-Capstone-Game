@@ -57,9 +57,7 @@ private:
       {objectEnemy, config::ENEMY_GRAPIC_PATH},
   };
 
-  // set size
-  void initObject2d(Object2d &obj, const int wPix, const int hPix);
-  // Load image
+  // Load image from file and store texture
   void initTexture(const std::string filename);
   // Put object on window
   void renderObject2d(const Object2d &obj);

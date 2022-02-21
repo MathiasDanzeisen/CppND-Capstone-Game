@@ -6,11 +6,10 @@
 // Constrctor
 //  Set sporn thresholds for enemies in random generator
 Game::Game()
-    : engine(dev()),
+    : _logic(), engine(dev()),
       _random_w(config::VRES_POINTS_MIN, config::VRES_POINTS_MAX),
       _random_h(config::VRES_POINTS_MIN,
                 std::ceil(config::VRES_POINTS_MAX * 0.3)) {
-  _logic = std::make_shared<Logic>();
 }
 
 void Game::run(Controller const &controller, Renderer &renderer,

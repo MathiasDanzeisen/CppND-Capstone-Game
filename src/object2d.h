@@ -12,7 +12,6 @@
 class Object2d : public IObject2d {
 public:
   Object2d();
-  // Object2d(std::string image_path);
   ~Object2d();
 
   Object2d(const Object2d &other) = delete;            // copy constructor

@@ -6,6 +6,7 @@
 
 class Controller {
 public:
+  // Process user input
   void HandleInput(bool &running, Logic &logic) const;
 
 private:

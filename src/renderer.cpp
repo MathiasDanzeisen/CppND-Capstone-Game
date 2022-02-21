@@ -7,7 +7,7 @@
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height)
-    : _screenWidth(screen_width), _screenHeight(screen_height) {
+    : _screenWidth(screen_width), _screenHeight(screen_height),_mapObj2TextFilename() {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";

@@ -17,8 +17,6 @@ namespace config {
     static constexpr int  PLAYER_RELOAD_INTERVALL{5};  // frame intervall (minus one frame)between firing two bullets in burst mode
     static constexpr objPosition_t  PLAYER_INIT_POS{std::lround(config::VRES_POINTS_MAX * 0.5),std::lround(config::VRES_POINTS_MAX * 0.9)};  // frame intervall (minus one frame)between firing two bullets in burst mode
     
-                              
-
     // _SPEED_ENEMY: constant speed of the enemy
     static constexpr int  ENEMY_SPEED_INIT{5};  // init value
     static constexpr int  ENEMY_SPEED_LEV_INC{1};  // increment for each difficulty level
@@ -40,7 +38,5 @@ namespace config {
     static constexpr char ENEMY_GRAPIC_PATH[]{"data/player_cat_red.png"};
     static constexpr int ENEMY_GRAPIC_SIZE{70}; 
     static constexpr char BACKGROUND_GRAPIC_PATH[]{"data/background_alley-gceda_1920.jpg"};  
-    
 }
-  
 #endif
