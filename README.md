@@ -84,29 +84,29 @@ Once your player catches you the game is over and your score is printed on the c
 ## Checklist
 | Criteria                                                                                       | Description                             |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------- |
-| A README with instructions is included with the project                                        | ✅ this file                             |
-| The README indicates which project is chosen.                                                  | ✅ [Intro](#intro)                       |
-| The README includes information about each rubric point addressed.                             | ✅ this table                            |
+| A README with instructions is included with the project                                        | ✓ this file                             |
+| The README indicates which project is chosen.                                                  | ✓ [Intro](#intro)                       |
+| The README includes information about each rubric point addressed.                             | ✓ this table                            |
 | -----------                                                                                    | -----------                             |
-| The submission must compile and run.                                                           | ✅  [howto](#basic-build-instructions)   |
+| The submission must compile and run.                                                           | ✓  [howto](#basic-build-instructions)   |
 | -----------                                                                                    | -----------                             |
-| The project demonstrates an understanding of C++ functions and control structures.             | ✅ all sources files                     |
-| The project reads data from a file and process the data, or the program writes data to a file. | ✅ read images in  renderer.cpp:104      |
-| The project accepts user input and processes the input.                                        | ✅ see: controller.h/cpp                 |
+| The project demonstrates an understanding of C++ functions and control structures.             | ✓ all sources files                     |
+| The project reads data from a file and process the data, or the program writes data to a file. | ✓ read images in  renderer.cpp:104      |
+| The project accepts user input and processes the input.                                        | ✓ see: controller.h/cpp                 |
 | -----------                                                                                    | -----------                             |
-| The project uses Object Oriented Programming techniques.                                       | ✅ see all src files                     |
-| Classes use appropriate access specifiers for class members.                                   | ✅ see all headers                       |
-| Class constructors utilize member initialization lists.                                        | ✅ renderer.cpp                          |
-| Classes abstract implementation details from their interfaces.                                 | ✅                                       |
-| Classes encapsulate behavior                                                                   | ✅ see e.g: object2d.cpp or renderer.cpp |
-| Classes follow an appropriate inheritance hierarchy                                            | ✅ iobject2d.h, object2d.h, player.h     |
-| Overloaded functions allow the same function to operate on different parameters.               | ✅ renderer.h:65&67                      |
-| Derived class functions override virtual base class functions.                                 | ✅ player.h:16                           |
+| The project uses Object Oriented Programming techniques.                                       | ✓ see all src files                     |
+| Classes use appropriate access specifiers for class members.                                   | ✓ see all headers                       |
+| Class constructors utilize member initialization lists.                                        | ✓ renderer.cpp                          |
+| Classes abstract implementation details from their interfaces.                                 | ✓                                       |
+| Classes encapsulate behavior                                                                   | ✓ see e.g: object2d.cpp or renderer.cpp |
+| Classes follow an appropriate inheritance hierarchy                                            | ✓ iobject2d.h, object2d.h, player.h     |
+| Overloaded functions allow the same function to operate on different parameters.               | ✓ renderer.h:65&67                      |
+| Derived class functions override virtual base class functions.                                 | ✓ player.h:16                           |
 | -----------                                                                                    | -----------                             |
-| The project makes use of references in function declarations.                                  | ✅ object2d.h:53&59                      |
-| The project uses destructors appropriately.                                                    | ✅ renderer.cpp:49                       |
-| The project uses move semantics to move data, instead of copying it, where possible.           | ✅ game.cpp:102                          |
-| The project uses smart pointers instead of raw pointers.                                       | ✅ logic.h                               |
+| The project makes use of references in function declarations.                                  | ✓ object2d.h:53&59                      |
+| The project uses destructors appropriately.                                                    | ✓ renderer.cpp:49                       |
+| The project uses move semantics to move data, instead of copying it, where possible.           | ✓ game.cpp:102                          |
+| The project uses smart pointers instead of raw pointers.                                       | ✓ logic.h                               |
 | -----------                                                                                    | -----------                             |
 
 
