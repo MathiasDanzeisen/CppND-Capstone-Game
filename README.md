@@ -8,7 +8,7 @@
   - [Dependencies for Running Locally](#dependencies-for-running-locally)
   - [Basic Build Instructions](#basic-build-instructions)
   - [File and folder strcuture](#file-and-folder-strcuture)
-  - [checklist](#checklist)
+  - [Checklist](#checklist)
   - [CC Attribution-ShareAlike 4.0 International](#cc-attribution-sharealike-40-international)
   - [Attribution Freepik](#attribution-freepik)
   - [Misc Attribution](#misc-attribution)
@@ -81,17 +81,7 @@ Once your player catches you the game is over and your score is printed on the c
     └── renderer.h
 ```
 
-## checklist
-* Compiling and Testing 
-  * ✓ The submission must compile and run.
-* Loops, Functions, I/O
-  1. The project demonstrates an understanding of C++ functions and control structures.
-     - see: `class Game`
-  2. The project accepts user input and processes the input.
-     - see: `Controller::HandleInput(bool &running, Logic &logic) `
-* 
-   
-✅   
+## Checklist
 | Criteria                                                                                       | Description                             |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------- |
 | A README with instructions is included with the project                                        | ✅ this file                             |
