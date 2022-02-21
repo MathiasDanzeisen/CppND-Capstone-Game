@@ -1,6 +1,27 @@
 # CPPND: Capstone Game
-In this game you play a lonely animal and need to defeat yourself against all attracts to survive and be successful in the game.
 
+- [CPPND: Capstone Game](#cppnd-capstone-game)
+  - [Intro](#intro)
+- [Manual](#manual)
+  - [Control](#control)
+  - [Behavior](#behavior)
+  - [Dependencies for Running Locally](#dependencies-for-running-locally)
+  - [Basic Build Instructions](#basic-build-instructions)
+  - [File and folder strcuture](#file-and-folder-strcuture)
+  - [checklist](#checklist)
+  - [CC Attribution-ShareAlike 4.0 International](#cc-attribution-sharealike-40-international)
+  - [Attribution Freepik](#attribution-freepik)
+  - [Misc Attribution](#misc-attribution)
+
+## Intro
+In this game you play a lonely animal and need to defeat yourself against all attracts to survive and be successful in the game. This is 2D shooter forked from [udacity/CppND-Capstone-Snake-Game](https://github.com/udacity/CppND-Capstone-Snake-Game) and heavily modified.
+
+# Manual
+## Control
+You can control your favorite animal with the arrow keyboard keys to move it across the screen. To shoot press the space key.   
+## Behavior
+You can move your animal on the screen and shoot or avoid the approaching enemies. Your score is increased for each destroyed enemy and decreased for each enemy with passes you.
+Once your player catches you the game is over and your score is printed on the console.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -26,28 +47,36 @@ In this game you play a lonely animal and need to defeat yourself against all at
 3. Install depoendencies: `conan install -pr:b=default -s build_type=Debug ..`
 4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
 5. Compile: `cmake --build .`  # or just "`make`"
-6. Run it from the workspace directory (otherwise images are not beeing found): `cd .. & ./build/Game`. 
+6. Run it from the workspace directory (otherwise images are not being found): `cd .. & ./build/Game`. 
 
 ## File and folder strcuture
 ```
 .
 ├── .vscode         -> configuration of vscode IDE 
-├── CMakeLists.txt  -> cmake file fot the build    
+├── CMakeLists.txt  -> cmake file for the build    
 ├── CODEOWNERS  
 ├── conanfile.txt -> configuration file for conan dependency management 
-├── data          -> files like images which are needed in the program
+├── data          -> images which are needed in the program
 ├── LICENSE.md
 ├── README.md     -> This readme
 └── src           -> Source and header files
+    ├── bullet.cpp
+    ├── bullet.h
+    ├── config.h
     ├── controller.cpp
     ├── controller.h
+    ├── enemy.cpp
+    ├── enemy.h
     ├── game.cpp
     ├── game.h
+    ├── iobject2d.h
     ├── logic.cpp
     ├── logic.h
     ├── main.cpp
     ├── object2d.cpp
     ├── object2d.h
+    ├── player.cpp
+    ├── player.h
     ├── renderer.cpp
     └── renderer.h
 ```
@@ -62,6 +91,36 @@ In this game you play a lonely animal and need to defeat yourself against all at
      - see: `Controller::HandleInput(bool &running, Logic &logic) `
 * 
    
+✅   
+| Criteria                                                                                       | Description |
+| ---------------------------------------------------------------------------------------------- | ----------- |
+| A README with instructions is included with the project                                        | ✅ this file |
+| The README indicates which project is chosen.                                                  | ✅ [Intro](#intro) |
+| The README includes information about each rubric point addressed.                             | ✅ this table |
+| -----------                                                                                    | ----------- |
+| The submission must compile and run.                                                           | ✅  [Build Instructions](#basic-build-instructions)       |
+| -----------                                                                                    | ----------- |
+| The project demonstrates an understanding of C++ functions and control structures.             | ✅ all sources files |
+| The project reads data from a file and process the data, or the program writes data to a file. | ✅ read images in  renderer.cpp:104 |
+| The project accepts user input and processes the input.                                        | ✅ see: controller.h/cpp |
+| -----------                                                                                    | ----------- |
+| The project uses Object Oriented Programming techniques.                                       | ✅ see all src files |
+| Classes use appropriate access specifiers for class members.                                   | ✅ see all headers |
+| Class constructors utilize member initialization lists.                                        | ✅ see: renderer.cpp |
+| Classes abstract implementation details from their interfaces.                                 | Text        |
+| Classes encapsulate behavior                                                                   | Text        |
+| Classes follow an appropriate inheritance hierarchy                                            | Text        |
+| Overloaded functions allow the same function to operate on different parameters.               | Text        |
+| Derived class functions override virtual base class functions.                                 | Text        |
+| -----------                                                                                    | ----------- |
+| The project makes use of references in function declarations.                                  | Text        |
+| The project uses destructors appropriately.                                                    | Text        |
+| The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.      | Text        |
+| The project follows the Rule of 5.                                                             | Text        |
+| The project uses move semantics to move data, instead of copying it, where possible.           | Text        |
+| The project uses smart pointers instead of raw pointers.                                       | Text        |
+| -----------                                                                                    | ----------- |
+
 
 
 
