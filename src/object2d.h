@@ -22,10 +22,10 @@ public:
   virtual void init();
 
   // position in points (not in pixels)
-  void setCurrPos(objPosition_t pos) final { _pos = pos; };
+  void setCurrPos(const objPosition_t &pos) final { _pos = pos; };
   int getCurrPosX() const final { return _pos.posX; };
   int getCurrPosY() const final { return _pos.posY; };
-  objPosition_t getCurrPos() const final { return _pos; };
+  const objPosition_t& getCurrPos() const final { return _pos; };
   objPosition_t getNextPos() const final;
 
   // object velocity (points per frame)
@@ -50,13 +50,13 @@ public:
   int getObjHPoints() const { return _objSizePoints.sizeH; };
 
   // Check if this object collides with otherObj
-  bool checkCollision(IObject2d &otherObj) const override;
+  bool checkCollision(const IObject2d &otherObj) const override;
 
   // Check if object at the current position is completely on the screen
   bool isObjOnScreen(void) const;
   // Check if object at the new position would be completely on the screen
   // without moving it
-  bool isObjOnScreen(objPosition_t pos) const;
+  bool isObjOnScreen(const objPosition_t &pos) const;
 
   // Get the type of this object
   object2dType_t getType() const final { return _type; };

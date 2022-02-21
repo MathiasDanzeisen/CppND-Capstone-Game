@@ -7,7 +7,12 @@
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height)
-    : _screenWidth(screen_width), _screenHeight(screen_height),_mapObj2TextFilename() {
+    : _screenWidth(screen_width), _screenHeight(screen_height),_mapObj2TextFilename{
+      {noObject, ""},
+      {objectPlayer, config::PLAYER1_GRAPIC_PATH},
+      {objectBullet, config::BULLET_GRAPIC_PATH},
+      {objectEnemy, config::ENEMY_GRAPIC_PATH},
+  } {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -34,7 +39,9 @@ Renderer::Renderer(const std::size_t screen_width,
 
   // Load textures
   for (const auto &[key, textureFile] : _mapObj2TextFilename) {
-    initTexture(textureFile);
+    if (key != noObject){
+      initTexture(textureFile);
+    }
   }
 }
 

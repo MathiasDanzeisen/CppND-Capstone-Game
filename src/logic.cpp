@@ -1,4 +1,6 @@
 #include "logic.h" 
 
-Logic::Logic() : _player1(),_bullets(),_enemies() {
+Logic::Logic() : _bullets(),_enemies() {
+    _player1 = std::make_unique<Player>();
+
 }

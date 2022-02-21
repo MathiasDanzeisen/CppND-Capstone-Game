@@ -29,10 +29,10 @@ struct objVelo_t {
 class IObject2d {
 public:
   // position in points (not in pixels)
-  virtual void setCurrPos(objPosition_t) = 0;
+  virtual void setCurrPos(const objPosition_t &pos) = 0;
   virtual int getCurrPosX() const = 0;
   virtual int getCurrPosY() const = 0;
-  virtual objPosition_t getCurrPos() const = 0;
+  virtual const objPosition_t& getCurrPos() const = 0;
   virtual objPosition_t getNextPos() const = 0;
 
   // object velocity (points per frame)
@@ -47,14 +47,14 @@ public:
   virtual int getObjWPoints() const = 0;
   virtual int getObjHPoints() const = 0;
 
-  //
-  virtual bool checkCollision(IObject2d &Object2d) const = 0;
+  // Check if this object collides with otherObj
+  virtual bool checkCollision(const IObject2d &Object2d) const = 0;
 
   // Check if object at the current position is completely on the screen
   virtual bool isObjOnScreen(void) const = 0;
   // Check if object at the new position would be completely on the screen
   // without moving it
-  virtual bool isObjOnScreen(objPosition_t pos) const = 0;
+  virtual bool isObjOnScreen(const objPosition_t &pos) const = 0;
 
   // Get type of object
   virtual object2dType_t getType() const = 0;

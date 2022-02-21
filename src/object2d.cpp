@@ -6,7 +6,9 @@
 #include <iostream>
 
 // constructor
-Object2d::Object2d() {}
+Object2d::Object2d()
+    : _pos{0, 0}, _veloX(0), _veloY(0), _objSizePoints{0, 0},
+      _type(object2dType_t::noObject) {}
 
 // destructor
 Object2d::~Object2d() {}
@@ -33,7 +35,7 @@ Object2d &Object2d::operator=(Object2d &&other) {
 
 void Object2d::init() {}
 
-bool Object2d::checkCollision(IObject2d &otherObj) const {
+bool Object2d::checkCollision(const IObject2d &otherObj) const {
   // check if x and y axis overlap
   return std::max(this->getCurrPosX(), otherObj.getCurrPosX()) <
              std::min(this->getCurrPosX() + this->getObjWPoints(),
@@ -47,7 +49,7 @@ bool Object2d::isObjOnScreen(void) const {
   return this->isObjOnScreen(this->getCurrPos());
 }
 
-bool Object2d::isObjOnScreen(objPosition_t pos) const {
+bool Object2d::isObjOnScreen(const objPosition_t &pos) const {
 
   return (pos.posX >= config::VRES_POINTS_MIN &&
           (pos.posX + this->getObjWPoints()) <= config::VRES_POINTS_MAX &&
@@ -61,6 +63,4 @@ objPosition_t Object2d::getNextPos() const {
   return objPosition_t{xPosNew, yPosNew};
 }
 
-void Object2d::update(){
-  this->setCurrPos(this->getNextPos());
-}
+void Object2d::update() { this->setCurrPos(this->getNextPos()); }

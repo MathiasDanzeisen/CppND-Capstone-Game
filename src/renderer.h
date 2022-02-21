@@ -50,12 +50,7 @@ private:
   const std::size_t _screenHeight;
 
   // Define with objectType is rendered with with files
-  const std::map<object2dType_t, std::string> _mapObj2TextFilename{
-      {noObject, ""},
-      {objectPlayer, config::PLAYER1_GRAPIC_PATH},
-      {objectBullet, config::BULLET_GRAPIC_PATH},
-      {objectEnemy, config::ENEMY_GRAPIC_PATH},
-  };
+  const std::map<object2dType_t, std::string> _mapObj2TextFilename;
 
   // Load image from file and store texture
   void initTexture(const std::string filename);
