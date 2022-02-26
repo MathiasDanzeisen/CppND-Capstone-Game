@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.7)
 project(Game)
 enable_language(CXX)
 
-find_package(SDL_image)
+find_package(SDL2)
+find_package(SDL2_image)
 
 add_executable(Game 
     src/main.cpp 
@@ -32,6 +33,6 @@ target_include_directories(Game
 
 target_link_libraries(Game 
     PRIVATE    
-        SDL2-static
-        sdl_image::sdl_image
+        SDL2::SDL2-static
+        SDL2_image::SDL2_image
 )
