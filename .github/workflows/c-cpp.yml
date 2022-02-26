@@ -1,0 +1,36 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v2.3.2
+      #with:
+        # Version range or exact version of a Python version to use, using SemVer's version range syntax.
+        #python-version: # optional, default is 3.x
+        # Used to specify a package manager for caching in the default directory. Supported values: pip, pipenv.
+        #cache: # optional
+        # The target architecture (x86, x64) of the Python interpreter.
+        #architecture: # optional
+        # Used to pull python distributions from actions/python-versions. Since there's a default, this is typically not supplied by the user.
+        #token: # optional, default is ${{ github.token }}
+        # Used to specify the path to dependency files. Supports wildcards or a list of file names for caching multiple dependencies.
+        #cache-dependency-path: # optional
+    - name: prepare conan
+      run: pip install conan
+    - uses: actions/checkout@v2
+    - name: create build dir
+      run: mkdir build && cd build
+    - name: install deps
+      run: conan install -pr:b=default -s build_type=Debug
+    - name: make
+      run: cmake --build .
