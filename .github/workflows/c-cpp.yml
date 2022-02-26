@@ -31,6 +31,6 @@ jobs:
     - name: create build dir
       run: mkdir build && cd build
     - name: install deps
-      run: conan install -pr:b=default -s build_type=Debug
+      run: conan install -pr:b=default -s build_type=Debug ..
     - name: make
       run: cmake --build .
