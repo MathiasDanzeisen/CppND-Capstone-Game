@@ -38,4 +38,4 @@ jobs:
     - name: make
       run: cmake --build .
       shell: bash
-      working-directory: build
+      working-directory: ./build
