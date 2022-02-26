@@ -42,7 +42,7 @@ Once your player catches you the game is over and your score is printed on the c
 
 ## Basic Build Instructions
 
-1. Clone this repo.
+1. Clone this repo. 
 2. Create build directory `mkdir build && cd build`
 3. Install depoendencies: `conan install -pr:b=default -s build_type=Debug ..`
 4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
