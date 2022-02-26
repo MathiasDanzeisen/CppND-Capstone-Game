@@ -32,5 +32,7 @@ jobs:
       run: mkdir build
     - name: install deps
       run: cd build && conan install -pr:b=default -s build_type=Debug ..
+      env:
+        CONAN_SYSREQUIRES_MODE: enabled
     - name: make
       run: cd build && cmake --build .
