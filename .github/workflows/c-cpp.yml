@@ -35,4 +35,6 @@ jobs:
       env:
         CONAN_SYSREQUIRES_MODE: enabled
     - name: make
-      run: cd build && cmake --build .
+      run: cmake --build .
+        shell: bash
+        working-directory: build
