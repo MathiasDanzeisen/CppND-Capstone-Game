@@ -26,16 +26,8 @@ jobs:
         #token: # optional, default is ${{ github.token }}
         # Used to specify the path to dependency files. Supports wildcards or a list of file names for caching multiple dependencies.
         #cache-dependency-path: # optional
-    - name: prepare conan
-      run: pip install conan
     - uses: actions/checkout@v2
-    - name: create build dir
-      run: mkdir build
-    - name: install deps
-      run: cd build && conan install -pr:b=default -s build_type=Debug ..
-      env:
-        CONAN_SYSREQUIRES_MODE: enabled
-    - name: make
-      run: cmake --build .
-      shell: bash
-      working-directory: ./build
+    - name: prepare
+      run: install_deps.sh
+    - name: build
+      run: build.sh
