@@ -5,9 +5,14 @@
 - [Manual](#manual)
   - [Control](#control)
   - [Behavior](#behavior)
-  - [Dependencies for Running Locally](#dependencies-for-running-locally)
+  - [Prerequisites to build](#prerequisites-to-build)
   - [Basic Build Instructions](#basic-build-instructions)
-  - [File and folder strcuture](#file-and-folder-strcuture)
+    - [Scripted build steps for linux](#scripted-build-steps-for-linux)
+    - [Manual build steps for linux](#manual-build-steps-for-linux)
+  - [Run game](#run-game)
+    - [Scripted steps for linux](#scripted-steps-for-linux)
+    - [Manual steps for linux](#manual-steps-for-linux)
+  - [File and folder structure](#file-and-folder-structure)
   - [Checklist](#checklist)
   - [CC Attribution-ShareAlike 4.0 International](#cc-attribution-sharealike-40-international)
   - [Attribution Freepik](#attribution-freepik)
@@ -23,8 +28,7 @@ You can control your favorite animal with the arrow keyboard keys to move it acr
 You can move your animal on the screen and shoot or avoid the approaching enemies. Your score is increased for each destroyed enemy and decreased for each enemy with passes you.
 Once your player catches you the game is over and your score is printed on the console.
 
-## Prerequists to build
-
+## Prerequisites to build
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
@@ -46,22 +50,22 @@ Once your player catches you the game is over and your score is printed on the c
 3. run `build.sh`
 
 ### Manual build steps for linux
-1. Install neededs tools descipted in [Prerequists to build]() 
+1. Install needed tools described in [Prerequists to build](#prerequisites-to-build) 
 2. Create build directory `mkdir build && cd build`
 3. Install dependencies: `export CONAN_SYSREQUIRES_MODE=enabled && conan install -pr:b=default -pr:h=default -s build_type=Debug ..`
 4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
 5. Compile: `cmake --build .`  # or just "`make`"
-6. Run it from the workspace directory (otherwise images are not being found): `cd .. & ./build/Game`. 
+
 
 ## Run game
-## Scripted steps for linux
+### Scripted steps for linux
 1. run `run.sh`
 
-## Manual steps for linux
-1. Add the path of repo to the PATh environement variable, so the executable can find the pictures: `export PATH="$(pwd):$PATH"`
+### Manual steps for linux
+1. Add the path of repo to the PATh environment variable, so the executable can find the pictures: `export PATH="$(pwd):$PATH"`
 2. run game with: `./build/Game`
 
-## File and folder strcuture
+## File and folder structure
 ```
 .
 ├── .vscode         -> configuration of vscode IDE 
