@@ -16,5 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: prepare
       run: install_deps.sh
+      shell: bash
     - name: build
       run: build.sh
+      shell: bash
