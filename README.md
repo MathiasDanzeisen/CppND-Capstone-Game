@@ -8,7 +8,6 @@
   - [Prerequisites to build](#prerequisites-to-build)
   - [Basic Build Instructions](#basic-build-instructions)
     - [Scripted build steps for linux](#scripted-build-steps-for-linux)
-    - [Manual build steps for linux](#manual-build-steps-for-linux)
   - [Run game](#run-game)
     - [Scripted steps for linux](#scripted-steps-for-linux)
     - [Manual steps for linux](#manual-steps-for-linux)
@@ -39,23 +38,18 @@ Once your player catches you the game is over and your score is printed on the c
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
-* conan binary management
-  * All OSes: [instructions](https://docs.conan.io/en/latest/installation.html#)
-  * Linux: get pkg-config with   `sudo apt install pkg-config -y`
+* SDL2 >= 2.0
+  * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
+  >Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source. 
+* SDL2_image >= 2.0
+  * All installation instructions can be found [here](https://www.libsdl.org/projects/SDL_image/)
+  >Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source. 
 
 ## Basic Build Instructions
 ### Scripted build steps for linux
 1. Clone this repo. 
 2. run `install_deps.sh`
 3. run `build.sh`
-
-### Manual build steps for linux
-1. Install needed tools described in [Prerequists to build](#prerequisites-to-build) 
-2. Create build directory `mkdir build && cd build`
-3. Install dependencies: `export CONAN_SYSREQUIRES_MODE=enabled && conan install -pr:b=default -pr:h=default -s build_type=Debug ..`
-4. Configure project: `cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`
-5. Compile: `cmake --build .`  # or just "`make`"
-
 
 ## Run game
 ### Scripted steps for linux
