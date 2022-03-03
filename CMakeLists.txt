@@ -3,8 +3,14 @@ cmake_minimum_required(VERSION 3.7)
 project(Game)
 enable_language(CXX)
 
-find_package(SDL2)
-find_package(SDL2_image)
+
+INCLUDE(FindPkgConfig)
+
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
+
 
 add_executable(Game 
     src/main.cpp 
@@ -18,10 +24,7 @@ add_executable(Game
     src/enemy.cpp
 )
 
-
-#target_compile_options(Game PRIVATE -Wall -Wextra -pedantic -Werror)
-target_compile_options(Game PRIVATE -Wall -Wextra -pedantic )
-
+target_compile_options(Game PRIVATE -Wall -Wextra -pedantic -Werror)
 
 set_property(TARGET Game PROPERTY CXX_STANDARD 17)
 target_compile_features(Game PRIVATE cxx_std_17)
@@ -31,9 +34,5 @@ target_include_directories(Game
         src    
 )
 
-target_link_libraries(Game 
-    PRIVATE    
-        SDL2::SDL2-static
-        SDL2_image::SDL2_image
-        
-)
+# for build with sys libs
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
